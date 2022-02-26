@@ -92,7 +92,7 @@
                   >
                     <a href="javascript:void(0)">Dashboard</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
                     <a href="javascript:void(0)">Add/Withdraw Money</a>
                   </li>
                   <li class="nav-item">
@@ -127,7 +127,6 @@
                   {% endif %}
                 </ul>
               </div>
-
               <div class="navbar-btn d-none d-sm-inline-block">
                 {% if signedIn %}
                 <ul>
@@ -246,35 +245,37 @@
         navbarTogglerOne.classList.toggle("active");
       });
     </script>
-  </body>
+</body>
 
-  <script>
-    $(document).ready(function () {
-      childDashboardFunction();
-      parentDashboardFunction("{{ user.user_name }}");
-    });
+<script>
+  $(document).ready(function () {
+    childDashboardFunction('{{ user.user_name }}');
+    parentDashboardFunction('{{ user.user_name }}');
+  });
 
-    function childDashboardFunction() {
-      $.ajax({
-        method: "POST",
-        url: "/child-dashboard/",
-        data: {},
-        success: function (response) {
-          $("#marketPlace").hide();
-          $("#courses").hide();
-          $("#childDashboard").show();
-          $("#childDashboard").html("");
-          $("#childDashboard").append(response);
-        },
-      });
-    }
-    
-  function parentAddWithdrawMoney() {
+  function childDashboardFunction(username) {
+    $.ajax({
+      method: "POST",
+      url: "/child-dashboard/",
+      data: {
+        "username" :username,
+      },
+      success: function (response) {
+        $("#marketPlace").hide();
+        $("#courses").hide();
+        $("#childDashboard").show();
+        $("#childDashboard").html("")
+        $("#childDashboard").append(response)
+      }
+    })
+  }
+
+  function parentAddWithdrawMoney(username) {
     $.ajax({
       method: "POST",
       url: "/parent-add-money/",
       data :{
-
+        "username" : username,
       },
       success : function (response) {
         $("#parentDashboard").hide();

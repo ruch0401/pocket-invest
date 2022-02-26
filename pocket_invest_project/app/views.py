@@ -77,6 +77,12 @@ def SignUp(request):
             else:
                 user.user_type = 1
 
+            if(user.user_type == 0):
+                user.real_money_balance = 0
+                user.virtual_money_balance = 0
+                user.gender = 'M'
+                
+
             user.save()
             user = form.save()
             login(request, user)
@@ -91,9 +97,13 @@ def SignUp(request):
 
 @csrf_exempt
 def ChildDashboard(request):
-    render_string = render_to_string("app/child-dashboard.html")
+    username = request.POST.get('username')
+    child = User.objects.filter(user_name = username)
+    args = {"child":child[0]}
+    render_string = render_to_string("app/child-dashboard.html",args)
 
     return HttpResponse(render_string)
+    
 
 
 @csrf_exempt
@@ -190,7 +200,21 @@ def ParentDashboard(request):
 
 @csrf_exempt
 def ParentAddMoney(request):
-    render_string = render_to_string("app/parent-add-money.html")
+    if request.POST and "add-money" in request.POST:
+        print('inside if statement in parent add money')
+        inputAmount = request.POST.get("InputAmount")
+        childSelect = request.POST.get("SelectChild")
+        blockedAmount = request.POST.get("BlockedAmount")
+        print(inputAmount)
+
+    username = request.POST.get("username")
+    print("My username " , username)
+    user = User.objects.filter(user_name=username)
+    print('inside parent add money function')
+    print(user)
+    relationships = Relationship.objects.filter(parent=user[0])
+    args = {"relationships" : relationships}
+    render_string = render_to_string("app/parent-add-money.html", args)
 
     return HttpResponse(render_string)
 
