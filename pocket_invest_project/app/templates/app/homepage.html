@@ -71,7 +71,7 @@
                 <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="parentAddWithdrawMoney()">
                   <a href="javascript:void(0)">Add/Withdraw Money</a>
                 </li>
                 <li class="nav-item">
@@ -184,6 +184,8 @@
   {% if signedIn and parentFlag %}
   <div id="parentDashboard">
   </div>
+  <div id="parentaddmoney">
+  </div>
   {% elif signedIn and not parentFlag %}
   <div id="childDashboard">
   </div>
@@ -231,6 +233,23 @@
     })
   }
 
+  function parentAddWithdrawMoney() {
+    $.ajax({
+      method: "POST",
+      url: "/parent-add-money/",
+      data :{
+
+      },
+      success : function (response) {
+        $("#parentDashboard").hide();
+        $("#parentaddmoney").show();
+        $("#parentaddmoney").html("")
+        $("#parentaddmoney").append(response)
+      }
+    })
+  }
+
+  function parentDashboardFunction() {
   function parentDashboardFunction(username) {
     $.ajax({
       method: "POST",
@@ -244,6 +263,7 @@
         $("#parentDashboard").append(response)
       }
     })
+  }
   }
 
   function childMarketPlaceFunction() {
