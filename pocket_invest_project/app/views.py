@@ -18,6 +18,7 @@ from django.contrib.auth.forms import AuthenticationForm  # add this
 def Index(request):
     signedIn = True
     parentFlag = True
+    parentFlag = False
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
     return render(request, 'app/homepage.html', args)
 
@@ -52,8 +53,8 @@ def SignIn(request):
                     parentFlag = True
                 signedIn = True
 
-                args = {"signedIn": signedIn, "parentFlag": parentFlag}
-                return render(request, 'app/homepage.html', args)
+                args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
+                return render(request, 'app/homepage.html', {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]})
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -66,7 +67,7 @@ def SignIn(request):
 def SignUp(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
-        print(form.errors)
+        # print(form.errors)
         if form.is_valid():
             user = User()
             user.first_name = request.POST.get("first_name")
@@ -102,7 +103,7 @@ def ChildDashboard(request):
 
 @csrf_exempt
 def ChildMarketPlace(request):
-    vendors = VendorDetails.objects.all()
+    vendors = User.objects.filter(user_type=2)
     args = {"vendors": vendors}
     render_string = render_to_string("app/market-place.html", args)
 
@@ -124,3 +125,30 @@ def ParentDashboard(request):
     render_string = render_to_string("app/parent-dashboard.html")
 
     return HttpResponse(render_string)
+
+
+@csrf_exempt
+def BuyItem(request):
+
+    cost=request.POST['value']
+    name=request.POST['name']
+    child_id=request.POST['id']
+    title=''
+    body=''
+
+    child = User.objects.filter(id=child_id)
+
+    if child.virtual_money_balance>cost:
+        child.virtual_money_balance=child.virtual_money_balance-cost
+        child.save()
+        body='Congratulations! You just purchased a gift card from '+ name +' worth '+ cost + ' points.'
+        title='Transaction Successful!'
+    else:
+        body='Oops! You do not have sufficient balance to buy this item. You can invest your money to earn more points to buy more exciting stuff!'
+        title='Insufficient balance'
+    
+    print(title)
+    response = { 'title' : title, 'message':body}
+
+    return JsonResponse(response)
+
