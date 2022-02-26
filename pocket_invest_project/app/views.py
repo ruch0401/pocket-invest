@@ -1,4 +1,5 @@
 from pickle import FALSE
+import re
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
@@ -7,7 +8,7 @@ from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
-from .models import User
+from .models import Transaction, User
 import uuid
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
@@ -16,8 +17,8 @@ from django.contrib.auth.forms import AuthenticationForm  # add this
 # Create your views here.
 
 def Index(request):
-    signedIn = True
-    parentFlag = True
+    signedIn = False
+    parentFlag = False
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
     return render(request, 'app/homepage.html', args)
 
@@ -46,13 +47,14 @@ def SignIn(request):
                 print(type(user))
 
                 temp = User.objects.filter(user_name=user)
+                
                 if temp[0].user_type == 0:
                     parentFlag = False
                 else:
                     parentFlag = True
                 signedIn = True
 
-                args = {"signedIn": signedIn, "parentFlag": parentFlag}
+                args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
                 return render(request, 'app/homepage.html', args)
             else:
                 messages.error(request, "Invalid username or password.")
@@ -102,9 +104,9 @@ def ChildDashboard(request):
 
 @csrf_exempt
 def ChildMarketPlace(request):
-    vendors = VendorDetails.objects.all()
-    args = {"vendors": vendors}
-    render_string = render_to_string("app/market-place.html", args)
+    # vendors = VendorDetails.objects.all()
+    # args = {"vendors": vendors}
+    render_string = render_to_string("app/market-place.html")
 
     return HttpResponse(render_string)
 
@@ -117,10 +119,11 @@ def ChildCourses(request):
 
 @csrf_exempt
 def ParentDashboard(request):
-    # monthly_transcations = Transaction.objects.all().order_by('month')
-    # for x in monthly_transcations:
-    #     print(x.month)
-    # args = {"monthly_transcations":monthly_transcations}
-    render_string = render_to_string("app/parent-dashboard.html")
+    username = request.POST.get("username")
+    user = User.objects.filter(user_name=username)
+    
+    transactions = Transaction.objects.all().order_by('-date')
+    args = {"user":user[0], "transactions":transactions}
+    render_string = render_to_string("app/parent-dashboard.html",args)
 
     return HttpResponse(render_string)
