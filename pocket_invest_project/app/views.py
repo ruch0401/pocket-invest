@@ -80,7 +80,7 @@ def SignUp(request):
             if(user.user_type == 0):
                 user.real_money_balance = 0
                 user.virtual_money_balance = 0
-                user.gender = 'M'
+                user.gender = 0
                 
 
             user.save()
@@ -274,7 +274,7 @@ def BuyItem(request):
 
 
 
-    if  int(child[0].virtual_money_balance)>int(cost):
+    if  int(child[0].virtual_money_balance)>=int(cost):
         child[0].virtual_money_balance=int(child[0].virtual_money_balance)-int(cost)
         child.update(virtual_money_balance=(int(child[0].virtual_money_balance)-int(cost)))
  # To Implement: Email to parent
