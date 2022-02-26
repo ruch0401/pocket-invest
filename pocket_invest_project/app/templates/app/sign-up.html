@@ -30,6 +30,9 @@
     <!--====== Style css ======-->
     <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
 
+    <!--====== Line Icons css ======-->
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
     <link
       rel="stylesheet"
       href="{% static 'scss/sign-in-up/sign-in-up-01.css' %}"
@@ -77,7 +80,7 @@
                         Please enter your Username
                       </label>
                       <div class="input-items default">
-                        <input type="text" placeholder="Last Name"  id='username' name='username' required/>
+                        <input type="text" placeholder="Username"  id='username' name='username' required/>
                         <i class="lni lni-user"></i>
                       </div>
                     </div>
@@ -89,7 +92,7 @@
                         Please enter your Email ID
                       </label>
                       <div class="input-items default">
-                        <input type="text" placeholder="First Name"  id='email' name='email' required/>
+                        <input type="text" placeholder="Email ID"  id='email' name='email' required/>
                         <i class="lni lni-user"></i>
                       </div>
                     </div>
@@ -107,27 +110,43 @@
                     </div>
                     <!-- form input -->
                   </div>
-                   <div class="form-input">
+                  <div class="col-md-12">
+                    <div class="form-input">
                       <label>Confirm Password</label>
                       <div class="input-items default">
-                        <input type="password" placeholder="Confirm Password" id="password2" name='password2' required/>
+                        <input type="password" placeholder="Re-type Password" id="password2" name='password2' required/>
                         <i class="lni lni-key"></i>
                       </div>
                     </div>
-                    <!-- form input -->
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-input rounded-buttons">
-                      <button
-                        class="btn primary-btn rounded-full"
-                        type="submit"
-                      >
-                        Sign In!
-                      </button>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label> You are a  </label>  
+                      <label class="switch-btn-text">
+                        <input type="checkbox" id="is-parent" name="is-parent" value="no"/>
+                        <div class="switch-body">
+                           <span class="slide-text">
+                              <span class="text active">Child</span>
+                           </span>
+                           <span class="slide">
+                              <span class="icon active-icon">
+                                  <i class="lni lni-close"></i>
+                              </span>
+                              <span class="icon inactive-icon">
+                                  <i class="lni lni-checkmark"></i>
+                              </span>
+                           </span>
+                           <span class="slide-text">
+                           <span class="text inactive">Parent</span>
+                           </span>
+                        </div>
+                      </label>
                     </div>
+                  </div>
+                   
                     <!-- form input -->
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-input rounded-buttons">
                       <button
                         class="btn primary-btn-outline rounded-full"

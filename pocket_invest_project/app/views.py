@@ -1,14 +1,16 @@
+from inspect import ArgSpec
 from pickle import FALSE
+import re
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import VendorDetails
 from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
-from .models import Parent, Child
+from .models import Relationship, User
+from .models import Transaction, User
 import uuid
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
@@ -17,23 +19,34 @@ from django.contrib.auth.forms import AuthenticationForm  # add this
 # Create your views here.
 
 def Index(request):
-    signedIn = True
-    parentFlag = True
+    signedIn = False
+    parentFlag = False
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
     return render(request, 'app/homepage.html', args)
 
 
+@csrf_exempt
 def SignIn(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
+        print(form.errors)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("/")
+                temp = User.objects.filter(user_name=user)
+                
+                if temp[0].user_type == 0:
+                    parentFlag = False
+                else:
+                    parentFlag = True
+                signedIn = True
+                args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
+                return render(request, 'app/homepage.html', args)
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -42,23 +55,26 @@ def SignIn(request):
     return render(request=request, template_name="app/sign-in.html", context={"login_form": form})
 
 
+@csrf_exempt
 def SignUp(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         print(form.errors)
         if form.is_valid():
-            parent = Parent()
-            parent.first_name = request.POST.get("first_name")
-            parent.last_name = request.POST.get("last_name")
-            parent.user_name = request.POST.get("username")
-            parent.email_id = request.POST.get("email")
-            parent.password = request.POST.get("password1")
-            parent.random_id = uuid.uuid4()
+            user = User()
+            user.first_name = request.POST.get("first_name")
+            user.last_name = request.POST.get("last_name")
+            user.user_name = request.POST.get("username")
+            user.email_id = request.POST.get("email")
+            user.password = request.POST.get("password1")
+            user.random_id = uuid.uuid4()
 
-            parent.save()
+            if request.POST.get("is-parent") == "no":
+                user.user_type = 0
+            else:
+                user.user_type = 1
 
-            print('This is the parent first name: ' + parent.first_name)
-
+            user.save()
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful.")
@@ -79,9 +95,9 @@ def ChildDashboard(request):
 
 @csrf_exempt
 def ChildMarketPlace(request):
-    vendors = VendorDetails.objects.all()
-    args = {"vendors": vendors}
-    render_string = render_to_string("app/market-place.html", args)
+    # vendors = VendorDetails.objects.all()
+    # args = {"vendors": vendors}
+    render_string = render_to_string("app/market-place.html")
 
     return HttpResponse(render_string)
 
@@ -92,8 +108,60 @@ def ChildCourses(request):
 
     return HttpResponse(render_string)
 
+
 @csrf_exempt
 def ParentDashboard(request):
-    render_string = render_to_string("app/parent-dashboard.html")
+    username = request.POST.get("username")
+    user = User.objects.filter(user_name=username)
+    
+    transactions = Transaction.objects.all().order_by('-date')
+    args = {"user":user[0], "transactions":transactions}
+    render_string = render_to_string("app/parent-dashboard.html",args)
+
+    return HttpResponse(render_string)
+
+
+@csrf_exempt
+def Profile(request):
+    if request.POST and "submit-access-code" not in request.POST:
+        currentusername = request.POST.get("user")
+        print(currentusername)
+        args = {"currentusername": currentusername}
+        return render(request, 'app/profile.html', args)
+
+    if request.POST and "submit-access-code" in request.POST:
+        uniqueStringToSearch = request.POST.get("access_code")
+
+        # get current and parent user strings
+        currentusername = request.POST.get("hiddencurrentuser")
+        parentusername = request.POST.get("username")
+
+        print(currentusername)
+        print(parentusername)
+
+        # fetch current and parent user objects
+        currentUserObject = User.objects.filter(user_name=currentusername)
+        parentUserObject = User.objects.filter(user_name=parentusername)
+
+        print(currentUserObject)
+        print(parentUserObject)
+
+        # add data to relationship model
+        relationship = Relationship()
+        relationship.parent = parentUserObject[0]
+        relationship.child = currentUserObject[0]
+        relationship.random_id = uniqueStringToSearch
+
+        if uniqueStringToSearch == parentUserObject[0].random_id:
+            relationship.save()
+        else:
+            print('Random ID did not match')
+            return render(request, 'app/homepage.html')
+
+        return render(request, 'app/profile.html')
+
+@csrf_exempt
+def Quiz(request):
+    render_string = render_to_string("app/quiz.html")
 
     return HttpResponse(render_string)

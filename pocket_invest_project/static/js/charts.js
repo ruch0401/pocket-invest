@@ -206,7 +206,6 @@ Highcharts.chart('bar-courses', {
     }
 });
 
-
 Highcharts.chart('line-chart', {
 
     title: {

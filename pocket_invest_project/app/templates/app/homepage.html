@@ -32,12 +32,21 @@
   <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
   <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/tabs-accordions/tabs.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/section-title/section-title-04.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
   <link rel="stylesheet" href="{% static 'css/quiz.css' %}" />
 
   <link rel="stylesheet" href="build.css">
 
-    <link rel="stylesheet" href="assets/scss/buttons/button-page.css" />
-
+  <link rel="stylesheet" href="assets/scss/buttons/button-page.css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -47,8 +56,6 @@
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
   <script src="https://code.highcharts.com/modules/data.js"></script>
   <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-  
-
 </head>
 
 <body>
@@ -77,13 +84,13 @@
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                  <a href="javascript:void(0)">Services</a>
+                  <a href="javascript:void(0)">Add/Withdraw Money</a>
                 </li>
                 <li class="nav-item">
-                  <a href="javascript:void(0)">Resources</a>
+                  <a href="javascript:void(0)">Profile</a>
                 </li>
                 <li class="nav-item">
-                  <a href="javascript:void(0)">Support</a>
+                  <a href="javascript:void(0)">Notification</a>
                 </li>
                 {% elif signedIn and not parentFlag %}
                 <li class="nav-item" onclick="childDashboardFunction()">
@@ -98,8 +105,11 @@
                 <li class="nav-item" onclick="childMarketPlaceFunction()">
                   <a href="javascript:void(0)">Market Place</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Profile</a>
+                </li>
+                <li class="nav-item" onclick="quizFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Quiz</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -116,17 +126,7 @@
                   <a class="btn primary-btn-outline" href="">Logout</a>
                 </li>
               </ul>
-              {% else %}
-              <ul>
-                <li>
-                  <a class="btn primary-btn-outline" href="{% url 'sign-in' %}">Sign In</a>
-                </li>
-                <li>
-                  <a class="btn primary-btn" href="{% url 'sign-up' %}">Sign Up</a>
-                </li>
-              </ul>
               {% endif %}
-            </div>
           </nav>
           <!-- navbar -->
         </div>
@@ -152,10 +152,12 @@
                   It's Time to Teach your Kids about Money
                 </h1>
                 <p class="text-lg">
-                  "Having discussions about money and how it’s made at the dinner table is really, really important.
-                  The concept of money saving and how the world works is something even a child can grasp at an early
-                  age."<br>
-                  <span style="font-size: 12px;">- Kevin O'Leary (Shark Tank Investor & Chairman, O'Shares ETFs)</span>
+                  "Having discussions about money and how it’s made at the
+                  dinner table is really, really important. The concept of
+                  money saving and how the world works is something even a
+                  child can grasp at an early age."<br />
+                  <span style="font-size: 12px">- Kevin O'Leary (Shark Tank Investor & Chairman, O'Shares
+                    ETFs)</span>
                 </p>
                 <div class="header-btn rounded-buttons">
                   <a class="btn primary-btn-outline btn-lg" href="{% url 'sign-up' %}">
@@ -187,15 +189,13 @@
   {% endif %}
   <!--====== HEADER ONE PART ENDS ======-->
   {% if signedIn and parentFlag %}
-  <div id="parentDashboard">
-  </div>
+  <div id="parentDashboard"></div>
   {% elif signedIn and not parentFlag %}
-  <div id="childDashboard">
-  </div>
-  <div id="courses">
-  </div>
-  <div id="marketPlace">
-  </div>
+  <div id="childDashboard"></div>
+  <div id="courses"></div>
+  <div id="marketPlace"></div>
+  <div id="profile"></div>
+  <div id="quiz"></div>
   {% endif %}
 
   <!--====== Bootstrap js ======-->
@@ -215,7 +215,7 @@
 <script>
   $(document).ready(function () {
     childDashboardFunction();
-    parentDashboardFunction();
+    parentDashboardFunction('{{ user.user_name }}');
   });
 
   function childDashboardFunction() {
@@ -234,11 +234,12 @@
     })
   }
 
-  function parentDashboardFunction() {
+  function parentDashboardFunction(username) {
     $.ajax({
       method: "POST",
       url: "/parent-dashboard/",
       data: {
+        "username": username,
       },
       success: function (response) {
         $("#parentDashboard").show();
@@ -248,42 +249,89 @@
     })
   }
 
+  function parentDashboardFunction(user) {
+    console.log(user);
+    $.ajax({
+      method: "POST",
+      url: "/parent-dashboard/",
+      data: { user: user },
+      success: function (response) {
+        $("#parentDashboard").show();
+        $("#parentDashboard").html("");
+        $("#parentDashboard").append(response);
+      },
+    });
+  }
+
   function childMarketPlaceFunction() {
     $.ajax({
       method: "POST",
       url: "/market-place/",
-      data: {
-      },
+      data: {},
       success: function (response) {
         $("#childDashboard").hide();
         $("#courses").hide();
         $("#marketPlace").show();
-        $("#marketPlace").html("")
-        $("#marketPlace").append(response)
-      }
-    })
+        $("#marketPlace").html("");
+        $("#marketPlace").append(response);
+      },
+    });
   }
 
   function coursesFunction() {
     $.ajax({
       method: "POST",
       url: "/courses/",
+      data: {},
+      success: function (response) {
+        $("#childDashboard").hide();
+        $("#marketPlace").hide();
+        $("#quiz").hide();
+        $("#courses").show();
+        $("#courses").html("");
+        $("#courses").append(response);
+      },
+    });
+  }
+
+  function profileFunction(user) {
+    console.log("This is the user", user);
+    $.ajax({
+      method: "POST",
+      url: "/profile/",
       data: {
+        user: user,
       },
       success: function (response) {
         $("#childDashboard").hide();
         $("#marketPlace").hide();
-        $("#courses").show();
-        $("#courses").html("")
-        $("#courses").append(response)
-      }
-    })
+        $("#quiz").hide();
+        $("#profile").show();
+        $("#profile").html("");
+        $("#profile").append(response);
+      },
+    });
   }
 
-
+  function quizFunction(user) {
+    console.log("This is quiz", user);
+    $.ajax({
+      method: "POST",
+      url: "/quiz/",
+      data: {
+        user: user,
+      },
+      success: function (response) {
+        $("#childDashboard").hide();
+        $("#marketPlace").hide();
+        $("#profile").hide();
+        $("#courses").hide();
+        $("#quiz").show();
+        $("#quiz").html("");
+        $("#quiz").append(response);
+      },
+    });
+  }
 </script>
-
-<script type="text/javascript" src="{% static 'js/quiz.js' %}"></script>
-
 
 </html>
