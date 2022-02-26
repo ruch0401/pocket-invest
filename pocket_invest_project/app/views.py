@@ -1,6 +1,7 @@
 from inspect import ArgSpec
 from pickle import FALSE
 import re
+from this import d
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
@@ -14,11 +15,13 @@ from .models import Transaction, User
 import uuid
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
+import json
 
 
 # Create your views here.
-
+@csrf_exempt
 def Index(request):
+    print("Inside index")
     signedIn = False
     parentFlag = False
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
@@ -39,13 +42,15 @@ def SignIn(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 temp = User.objects.filter(user_name=user)
-                
+
                 if temp[0].user_type == 0:
                     parentFlag = False
                 else:
                     parentFlag = True
                 signedIn = True
-                args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
+                args = {"signedIn": signedIn,
+                        "parentFlag": parentFlag, "user": temp[0]}
+                # return redirect('app/homepage.html', args)
                 return render(request, 'app/homepage.html', args)
             else:
                 messages.error(request, "Invalid username or password.")
@@ -113,15 +118,79 @@ def ChildCourses(request):
 def ParentDashboard(request):
     username = request.POST.get("username")
     user = User.objects.filter(user_name=username)
-    
+
+    # chart 1 get parent transactions
     transactions = Transaction.objects.all().order_by('-date')
-    args = {"user":user[0], "transactions":transactions}
-    render_string = render_to_string("app/parent-dashboard.html",args)
+    transaction_ids = Transaction.objects.filter(
+        sender=user[0], type_of_transaction=0).order_by('receiver').order_by('date')
+
+    listOfDict = []
+    mapOfChart1 = {}
+    for x in transaction_ids:
+        # print("printing name " + x.receiver.first_name)
+        print("printing date " + str(x.date).split('-')[1])
+        month = int(str(x.date).split('-')[1])
+        if x.receiver.first_name in mapOfChart1:
+            data = mapOfChart1[x.receiver.first_name]
+            data[month - 1] += int(x.amount)
+        else:
+            data = [0] * 12
+            mapOfChart1[x.receiver.first_name] = data
+            data[month - 1] = int(x.amount)
+
+    for key in mapOfChart1:
+        tempDict = {}
+        tempDict["name"] = key
+        tempDict["data"] = mapOfChart1[key]
+        listOfDict.append(tempDict)
+
+    # chart 2 - get child money status
+    realMoney = 0
+    virtualMoney = 0
+    relationships = Relationship.objects.filter(parent=user[0])
+    for x in relationships:
+        realMoney += x.child.real_money_balance
+        virtualMoney += x.child.virtual_money_balance
+
+    print(virtualMoney)
+    print(realMoney)
+    virtualRealPieChartArgs = [
+        ['Money Blocked', realMoney], ['Money Unlocked', virtualMoney]]
+
+    # chart 4 - get child expenditures
+    listOfDict4 = []
+    for y in relationships:
+        print(y.child.first_name)
+        transaction_ids = Transaction.objects.filter(
+            sender=y.child, type_of_transaction=1).order_by('receiver').order_by('date')
+
+        
+        mapOfChart4 = {}
+        for x in transaction_ids:
+            # print("printing name " + x.receiver.first_name)
+            print("printing date " + str(x.date).split('-')[1])
+            month = int(str(x.date).split('-')[1])
+            if x.sender.first_name in mapOfChart4:
+                data4 = mapOfChart4[x.sender.first_name]
+                data4[month - 1] += int(x.amount)
+            else:
+                data4 = [0] * 12
+                mapOfChart4[x.sender.first_name] = data4
+                data4[month - 1] = int(x.amount)
+
+        tempDict4 = {}
+        tempDict4["name"] = y.child.first_name
+        tempDict4["data"] = mapOfChart4[y.child.first_name]
+        listOfDict4.append(tempDict4)
+
+    args = {"user": user[0], "transactions": transactions,
+            "chart1": json.dumps(listOfDict), "chart2": json.dumps(virtualRealPieChartArgs), "chart4": json.dumps(listOfDict4)}
+    render_string = render_to_string("app/parent-dashboard.html", args)
 
     return HttpResponse(render_string)
 
 
-@csrf_exempt
+@ csrf_exempt
 def Profile(request):
     if request.POST and "submit-access-code" not in request.POST:
         currentusername = request.POST.get("user")
@@ -164,4 +233,3 @@ def Profile(request):
             parentFlag = False
             args = {"signedIn": signedIn, "parentFlag": parentFlag}
             return render(request, 'app/homepage.html', args)
-
