@@ -125,6 +125,7 @@
                 </ul>
               </div>
 
+
               <div class="navbar-btn d-none d-sm-inline-block">
                 {% if signedIn %}
                 <ul>
@@ -132,6 +133,37 @@
                     <a class="btn primary-btn-outline" href="">Logout</a>
                   </li>
                 </ul>
+            <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
+              <ul class="navbar-nav m-auto">
+                {% if signedIn and parentFlag %}
+                <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Add/Withdraw Money</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Notification</a>
+                </li>
+                {% elif signedIn and not parentFlag %}
+                <li class="nav-item" onclick="childDashboardFunction()">
+                  <a href="javascript:void(0)">Dashboard</a>
+                </li>
+                <li class="nav-item" onclick="coursesFunction()">
+                  <a href="javascript:void(0)">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Portfolio</a>
+                </li>
+                <li class="nav-item" onclick="childMarketPlaceFunction()">
+                  <a href="javascript:void(0)">Market Place</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Profile</a>
+                </li>
                 {% else %}
                 <ul>
                   <li>
@@ -242,28 +274,44 @@
         navbarTogglerOne.classList.toggle("active");
       });
     </script>
-  </body>
+</body>
 
-  <script>
-    $(document).ready(function () {
-      childDashboardFunction();
-      parentDashboardFunction();
-    });
+<script>
+  $(document).ready(function () {
+    childDashboardFunction();
+    parentDashboardFunction('{{ user.user_name }}');
+  });
 
-    function childDashboardFunction() {
-      $.ajax({
-        method: "POST",
-        url: "/child-dashboard/",
-        data: {},
-        success: function (response) {
-          $("#marketPlace").hide();
-          $("#courses").hide();
-          $("#childDashboard").show();
-          $("#childDashboard").html("");
-          $("#childDashboard").append(response);
-        },
-      });
-    }
+  function childDashboardFunction() {
+    $.ajax({
+      method: "POST",
+      url: "/child-dashboard/",
+      data: {
+      },
+      success: function (response) {
+        $("#marketPlace").hide();
+        $("#courses").hide();
+        $("#childDashboard").show();
+        $("#childDashboard").html("")
+        $("#childDashboard").append(response)
+      }
+    })
+  }
+
+  function parentDashboardFunction(username) {
+    $.ajax({
+      method: "POST",
+      url: "/parent-dashboard/",
+      data: {
+        "username": username,
+      },
+      success: function (response) {
+        $("#parentDashboard").show();
+        $("#parentDashboard").html("")
+        $("#parentDashboard").append(response)
+      }
+    })
+  }
 
     function parentDashboardFunction(user) {
       console.log(user);

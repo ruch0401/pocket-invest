@@ -36,11 +36,12 @@ class Relationship(models.Model):
 
 
 class Transaction(models.Model):
-    sender = models.ForeignKey(
-        User, related_name='sender2receiver', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(
-        User, related_name='receiver2sender', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name='sender2receiver', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='receiver2sender', on_delete=models.CASCADE)
     amount = models.CharField(max_length=100)
+    date = models.DateField()
+    details = models.TextField()
+    outcome = models.CharField(max_length=20)
     type_of_transaction = models.IntegerField()
 
 
