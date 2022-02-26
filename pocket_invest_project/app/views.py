@@ -154,8 +154,14 @@ def Profile(request):
 
         if uniqueStringToSearch == parentUserObject[0].random_id:
             relationship.save()
+            signedIn = True
+            parentFlag = False
+            args = {"signedIn": signedIn, "parentFlag": parentFlag}
+            return render(request, 'app/homepage.html', args)
         else:
             print('Random ID did not match')
-            return render(request, 'app/homepage.html')
+            signedIn = True
+            parentFlag = False
+            args = {"signedIn": signedIn, "parentFlag": parentFlag}
+            return render(request, 'app/homepage.html', args)
 
-        return render(request, 'app/profile.html')
