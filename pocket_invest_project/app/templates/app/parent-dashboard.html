@@ -9,7 +9,7 @@
                             <div class="col-12">
                                 <div class="content">
                                     <span> Dashboard </span>
-                                    <h2 class="fw-bold">Hi Steve!</h2>
+                                    <h2 class="fw-bold">Hi {{ user.first_name }}!</h2>
                                     <h3 class="gray-bg">Dashboard</h3>
                                     <p>
                                         All the information you need about your child's money habits!
@@ -76,30 +76,21 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Transaction Details</th>
                                             <th scope="col">Transaction Value</th>
+                                            <th scope="col">Receiver</th>
                                             <th scope="col">Decision Outcome</th>
                                           </tr>
                                         </thead>
                                         <tbody>
+                                        {% for trans in transactions %}
                                           <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                            <td>@mdo</td>
+                                            <th scope="row">{{ trans.id }}</th>
+                                            <td>{{ trans.date }}</td>
+                                            <td>{{ trans.details }}</td>
+                                            <td>{{ trans.amount }}</td>
+                                            <td>{{ trans.receiver }}</td>
+                                            <td>{{ trans.outcome }}</td>
                                           </tr>
-                                          <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                            <td>@mdo</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">3</th>
-                                            <td colspan="2">Larry the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>@mdo</td>
-                                          </tr>
+                                        {% endfor %}
                                         </tbody>
                                       </table>
                                 </div>

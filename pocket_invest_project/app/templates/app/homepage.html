@@ -68,7 +68,7 @@
             <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
               <ul class="navbar-nav m-auto">
                 {% if signedIn and parentFlag %}
-                <li class="nav-item" onclick="parentDashboardFunction()">
+                <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
                 <li class="nav-item" onclick="parentAddWithdrawMoney()">
@@ -93,7 +93,7 @@
                 <li class="nav-item" onclick="childMarketPlaceFunction()">
                   <a href="javascript:void(0)">Market Place</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Profile</a>
                 </li>
                 {% else %}
@@ -191,6 +191,8 @@
   </div>
   <div id="courses">
   </div>
+  <div id="profile">
+  </div>
   <div id="marketPlace">
   </div>
   {% endif %}
@@ -212,7 +214,7 @@
 <script>
   $(document).ready(function () {
     childDashboardFunction();
-    parentDashboardFunction();
+    parentDashboardFunction('{{ user.user_name }}');
   });
 
   function childDashboardFunction() {
@@ -248,10 +250,12 @@
   }
 
   function parentDashboardFunction() {
+  function parentDashboardFunction(username) {
     $.ajax({
       method: "POST",
       url: "/parent-dashboard/",
       data: {
+        "username": username,
       },
       success: function (response) {
         $("#parentDashboard").show();
@@ -259,6 +263,7 @@
         $("#parentDashboard").append(response)
       }
     })
+  }
   }
 
   function childMarketPlaceFunction() {
@@ -292,6 +297,24 @@
       }
     })
   }
+
+  function profileFunction(user) {
+      console.log("This is the user", user);
+      $.ajax({
+        method: "POST",
+        url: "/profile/",
+        data: {
+          user: user,
+        },
+        success: function (response) {
+          $("#childDashboard").hide();
+          $("#marketPlace").hide();
+          $("#profile").show();
+          $("#profile").html("");
+          $("#profile").append(response);
+        },
+      });
+    }
 
 
 </script>
