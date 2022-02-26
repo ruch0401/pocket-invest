@@ -11,5 +11,6 @@ urlpatterns = [
     path('parent-dashboard/', views.ParentDashboard, name='ParentDashboard'),
     path('parent-add-money/', views.ParentAddMoney, name='ParentAddMoney'),
     path('profile/', views.Profile, name='Profile'),
-
+    path('buy-item/', views.BuyItem, name='BuyItem'),
 ]
+

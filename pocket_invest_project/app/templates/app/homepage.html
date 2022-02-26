@@ -12,6 +12,7 @@
   <!--====== Title ======-->
   <title>Navbar | Ayro UI</title>
 
+
   <!--====== Favicon Icon ======-->
   <link rel="shortcut icon" href="{% static 'images/favicon.svg' %}" type="image/svg" />
 
@@ -90,7 +91,7 @@
                 <li class="nav-item">
                   <a href="javascript:void(0)">Portfolio</a>
                 </li>
-                <li class="nav-item" onclick="childMarketPlaceFunction()">
+                <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Market Place</a>
                 </li>
                 <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
@@ -249,7 +250,7 @@
     })
   }
 
-  function parentDashboardFunction() {
+
   function parentDashboardFunction(username) {
     $.ajax({
       method: "POST",
@@ -258,23 +259,29 @@
         "username": username,
       },
       success: function (response) {
+        window.alert(username);
         $("#parentDashboard").show();
         $("#parentDashboard").html("")
         $("#parentDashboard").append(response)
       }
     })
   }
-  }
+  
 
-  function childMarketPlaceFunction() {
+  function childMarketPlaceFunction(username) {
     $.ajax({
       method: "POST",
       url: "/market-place/",
       data: {
+         "username": username
       },
       success: function (response) {
+
+
+        window.alert(username);
         $("#childDashboard").hide();
         $("#courses").hide();
+        $("#profile").hide();
         $("#marketPlace").show();
         $("#marketPlace").html("")
         $("#marketPlace").append(response)
