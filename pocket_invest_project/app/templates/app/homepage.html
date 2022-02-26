@@ -220,6 +220,7 @@
         </div>
         <!-- header-shape -->
       </div>
+      
       <!-- header content area -->
     </section>
     {% endif %}
@@ -267,36 +268,61 @@
         },
       });
     }
+    
+  function parentAddWithdrawMoney() {
+    $.ajax({
+      method: "POST",
+      url: "/parent-add-money/",
+      data :{
 
-    function parentDashboardFunction(username) {
-      $.ajax({
-        method: "POST",
-        url: "/parent-dashboard/",
-        data: {
-          username: username,
-        },
-        success: function (response) {
-          $("#parentDashboard").show();
-          $("#parentDashboard").html("");
-          $("#parentDashboard").append(response);
-        },
-      });
-    }
+      },
+      success : function (response) {
+        $("#parentDashboard").hide();
+        $("#parentaddmoney").show();
+        $("#parentaddmoney").html("")
+        $("#parentaddmoney").append(response)
+      }
+    })
+  }
 
-    function childMarketPlaceFunction() {
-      $.ajax({
-        method: "POST",
-        url: "/market-place/",
-        data: {},
-        success: function (response) {
-          $("#childDashboard").hide();
-          $("#courses").hide();
-          $("#marketPlace").show();
-          $("#marketPlace").html("");
-          $("#marketPlace").append(response);
-        },
-      });
-    }
+
+  function parentDashboardFunction(username) {
+    $.ajax({
+      method: "POST",
+      url: "/parent-dashboard/",
+      data: {
+        "username": username,
+      },
+      success: function (response) {
+        window.alert(username);
+        $("#parentDashboard").show();
+        $("#parentDashboard").html("")
+        $("#parentDashboard").append(response)
+      }
+    })
+  }
+  
+
+  function childMarketPlaceFunction(username) {
+    $.ajax({
+      method: "POST",
+      url: "/market-place/",
+      data: {
+         "username": username
+      },
+      success: function (response) {
+
+
+        window.alert(username);
+        $("#childDashboard").hide();
+        $("#courses").hide();
+        $("#profile").hide();
+        $("#marketPlace").show();
+        $("#marketPlace").html("")
+        $("#marketPlace").append(response)
+      }
+    })
+  }
 
     function coursesFunction() {
       $.ajax({

@@ -13,6 +13,7 @@ from django.contrib import messages
 from .models import Relationship, User
 from .models import Transaction, User
 import uuid
+from datetime import datetime
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
 import json
@@ -21,7 +22,6 @@ import json
 # Create your views here.
 @csrf_exempt
 def Index(request):
-    print("Inside index")
     signedIn = False
     parentFlag = False
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
@@ -48,9 +48,7 @@ def SignIn(request):
                 else:
                     parentFlag = True
                 signedIn = True
-                args = {"signedIn": signedIn,
-                        "parentFlag": parentFlag, "user": temp[0]}
-                # return redirect('app/homepage.html', args)
+                args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
                 return render(request, 'app/homepage.html', args)
             else:
                 messages.error(request, "Invalid username or password.")
@@ -100,12 +98,13 @@ def ChildDashboard(request):
 
 @csrf_exempt
 def ChildMarketPlace(request):
-    # vendors = VendorDetails.objects.all()
-    # args = {"vendors": vendors}
-    render_string = render_to_string("app/market-place.html")
+    username = request.POST.get("username")
+    user = User.objects.filter(user_name=username)
+    vendors = User.objects.filter(user_type=2)
+    args = {"vendors": vendors,"user":user[0]}
+    render_string = render_to_string("app/market-place.html", args)
 
     return HttpResponse(render_string)
-
 
 @csrf_exempt
 def ChildCourses(request):
@@ -189,6 +188,11 @@ def ParentDashboard(request):
 
     return HttpResponse(render_string)
 
+@csrf_exempt
+def ParentAddMoney(request):
+    render_string = render_to_string("app/parent-add-money.html")
+
+    return HttpResponse(render_string)
 
 @ csrf_exempt
 def Profile(request):
@@ -233,3 +237,41 @@ def Profile(request):
             parentFlag = False
             args = {"signedIn": signedIn, "parentFlag": parentFlag}
             return render(request, 'app/homepage.html', args)
+
+@csrf_exempt
+def BuyItem(request):
+
+    cost=request.POST['value']
+    name=request.POST['name']
+    child_username=request.POST['user_name']
+    title=''
+    body=''
+    child = User.objects.filter(user_name=child_username)
+
+
+
+    if  int(child[0].virtual_money_balance)>int(cost):
+        child[0].virtual_money_balance=int(child[0].virtual_money_balance)-int(cost)
+        child.update(virtual_money_balance=(int(child[0].virtual_money_balance)-int(cost)))
+ # To Implement: Email to parent
+        body='Congratulations! You just purchased a gift card from '+ name +' worth '+ cost + ' points.'
+        title='Transaction Successful!'
+        transaction=Transaction()
+        transaction.sender=child[0]
+        transaction.receiver=child[0] #To update
+        transaction.amount=cost
+        transaction.date=datetime.today()
+        transaction.details= 'purchased a gift card from '+ name +' worth '+ cost + ' points.'  
+        transaction.outcome = "Successful"
+        transaction.type_of_transaction = "Mast wala" #To be updated
+
+
+
+    else:
+        body='Oops! You do not have sufficient balance to buy this item. You can invest your money to earn more points to buy more exciting stuff!'
+        title='Insufficient balance'
+    
+    print(title)
+    response = { 'title' : title, 'message':body}
+
+    return JsonResponse(response)
