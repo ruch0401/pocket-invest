@@ -124,3 +124,9 @@ def ParentDashboard(request):
     render_string = render_to_string("app/parent-dashboard.html")
 
     return HttpResponse(render_string)
+
+@csrf_exempt
+def ParentAddMoney(request):
+    render_string = render_to_string("app/parent-add-money.html")
+
+    return HttpResponse(render_string)
