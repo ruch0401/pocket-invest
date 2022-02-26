@@ -9,7 +9,10 @@ urlpatterns = [
     path('market-place/', views.ChildMarketPlace, name='ChildMarketPlace'),
     path('courses/', views.ChildCourses, name='ChildCourses'),
     path('parent-dashboard/', views.ParentDashboard, name='ParentDashboard'),
+    path('parent-add-money/', views.ParentAddMoney, name='ParentAddMoney'),
     path('profile/', views.Profile, name='Profile'),
     path('quiz/', views.Quiz, name='Quiz'),
     path('module/', views.Module, name='Module'),
+    path('buy-item/', views.BuyItem, name='BuyItem'),
 ]
+
