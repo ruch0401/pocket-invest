@@ -1,132 +1,205 @@
 {% load static %}
+<!DOCTYPE html>
 
-<div class="container">
-    <div class="gallery mt-5">
-        <div class="ml-auto mr-auto">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <div class="cc-porfolio-image flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front img-raised">
-                                <figure class="cc-effect">
-                                    <img src="https://wp-media.petersons.com/blog/wp-content/uploads/2017/11/10124737/business-business-plan-close-up-908292.jpg"
-                                        alt="Image" />
-                                    <figcaption onmouseover="mouseOver()" onmouseout="mouseOut()"
-                                        class="align-items-center d-flex flex-column justify-content-center"
-                                        id="figcaption">
-                                        <div class="h4" id="h4">Question 1</div>
-                                        <p id="question">How many companies are part of NSE?</p>
+<head>
 
-                                        <div class="btn-group" id="btn-group" role="group"
-                                            aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
-                                                required="required">
-                                            <label class="btn btn-outline-primary" id="btn-outline-1"
-                                                onclick="activateButton('btn-outline-1')">10</label>
+    <link rel="shortcut icon" href="{% static 'images/favicon.svg' %}" type="image/svg" />
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                                required="required">
-                                            <label class="btn btn-outline-primary" id="btn-outline-2"
-                                                onclick="activateButton('btn-outline-2')">25</label>
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
-                                                required="required">
-                                            <label class="btn btn-outline-primary" id="btn-outline-3"
-                                                onclick="activateButton('btn-outline-3')">NOTA</label>
-                                        </div>
+    <!--====== Bootstrap css ======-->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+  
+    <!--====== Line Icons css ======-->
+    <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
+  
+    <!--====== Style css ======-->
+    <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+  
+    <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/section-title/section-title-04.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/tabs-accordions/tabs.css' %}" />
+  
+    <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/section-title/section-title-04.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}" />
+  
+    <link rel="stylesheet" href="build.css">
+  
+    <link rel="stylesheet" href="assets/scss/buttons/button-page.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+</head>
 
-                                    </figcaption>
-
-
-                                </figure>
-
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="section-title-four" style="margin-top: 3%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="content">
+                                <span> Quiz </span>
+                                <h2 class="fw-bold">Hi {{ user.first_name }}!</h2>
+                                <h3 class="gray-bg">Quiz</h3>
+                                <p>
+                                    Let's get started with the Quiz!
+                                </p>
                             </div>
-                            <div class="me-3 mb-3">
-                                <a href="" class="btn primary-btn deactive" id="submit"
-                                    onclick="submit('btn-outline-3')">
-                                    Next
-                                </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- container -->
+            </div>
+        </div>
+        <div class="gallery mt-5">
+            <div class="ml-auto mr-auto">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="cc-porfolio-image flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front img-raised">
+                                    <figure class="cc-effect">
+                                        <img src="https://wp-media.petersons.com/blog/wp-content/uploads/2017/11/10124737/business-business-plan-close-up-908292.jpg"
+                                            alt="Image" />
+                                        <figcaption onmouseover="mouseOver()" onmouseout="mouseOut()"
+                                            class="align-items-center d-flex flex-column justify-content-center"
+                                            id="figcaption">
+                                            <div class="h4" id="h4">Question 1</div>
+                                            <p id="question">How many companies are part of NSE?</p>
+
+                                            <div class="btn-group" id="btn-group" role="group"
+                                                aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
+                                                    required="required">
+                                                <label class="btn btn-outline-primary" id="btn-outline-1"
+                                                    onclick="activateButton('btn-outline-1')">10</label>
+
+                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
+                                                    required="required">
+                                                <label class="btn btn-outline-primary" id="btn-outline-2"
+                                                    onclick="activateButton('btn-outline-2')">25</label>
+                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
+                                                    required="required">
+                                                <label class="btn btn-outline-primary" id="btn-outline-3"
+                                                    onclick="activateButton('btn-outline-3')">NOTA</label>
+                                            </div>
+
+                                        </figcaption>
+
+
+                                    </figure>
+
+                                </div>
+                                <div class="me-3 mb-3">
+                                    <a href="" class="btn primary-btn deactive" id="submit"
+                                        onclick="submit('btn-outline-3')">
+                                        Next
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
+    <script>
 
-            var flag = 0;
+        var flag = 0;
 
-            function mouseOver() {
+        function mouseOver() {
+            var elem1 = document.getElementById('btn-outline-1');
+            var elem2 = document.getElementById('btn-outline-2');
+            var elem3 = document.getElementById('btn-outline-3');
+            elem1.style.opacity = 1;
+            elem2.style.opacity = 1;
+            elem3.style.opacity = 1;
+        }
+
+        function mouseOut() {
+            if (flag == 0) {
                 var elem1 = document.getElementById('btn-outline-1');
                 var elem2 = document.getElementById('btn-outline-2');
                 var elem3 = document.getElementById('btn-outline-3');
-                elem1.style.opacity = 1;
-                elem2.style.opacity = 1;
-                elem3.style.opacity = 1;
+                var elem4 = document.getElementById('question');
+                elem1.style.opacity = 0;
+                elem2.style.opacity = 0;
+                elem3.style.opacity = 0;
+                elem4.style.color = "white";
             }
 
-            function mouseOut() {
-                if (flag == 0) {
-                    var elem1 = document.getElementById('btn-outline-1');
-                    var elem2 = document.getElementById('btn-outline-2');
-                    var elem3 = document.getElementById('btn-outline-3');
-                    var elem4 = document.getElementById('question');
-                    elem1.style.opacity = 0;
-                    elem2.style.opacity = 0;
-                    elem3.style.opacity = 0;
-                    elem4.style.color = "white";
-                }
+            else if (flag > 0) {
 
-                else if (flag > 0) {
+                console.log("inside mouse out");
 
-                    console.log("inside mouse out");
-
-                    var elem8 = document.getElementById('figcaption');
-                    elem8.style.background = "rgba(0,0,0,0.9)";
-
-                }
-
-            }
-
-            function activateButton(id) {
-                if (flag == 0) {
-                    flag = 1;
-                }
-                var elem1 = document.getElementById('btn-outline-1');
-                var elem2 = document.getElementById('btn-outline-2');
-                var elem3 = document.getElementById('btn-outline-3');
-                var elem4 = document.getElementById('btn-group');
-                var elem5 = document.getElementById('h4');
-                var elem6 = document.getElementById('question');
                 var elem8 = document.getElementById('figcaption');
-                elem1.style.opacity = 1;
-                elem2.style.opacity = 1;
-                elem3.style.opacity = 1;
-                elem5.style.opacity = 1;
-                elem6.style.opacity = 1;
-                elem8.style.opacity = 0.8;
-                elem4.style.backgroundColor = "rgb(192, 211, 218)";
-
-
-
-                var elem7 = document.getElementById(id);
-                if (flag == 1) {
-                    elem7.style.backgroundColor = "black";
-                    flag = 2;
-                }
-                document.getElementById("submit").className = document.getElementById("submit").classList.replace('primary-btn', 'primary-btn-outline');
+                elem8.style.background = "rgba(0,0,0,0.9)";
 
             }
 
+        }
+
+        function activateButton(id) {
+            if (flag == 0) {
+                flag = 1;
+            }
+            var elem1 = document.getElementById('btn-outline-1');
+            var elem2 = document.getElementById('btn-outline-2');
+            var elem3 = document.getElementById('btn-outline-3');
+            var elem4 = document.getElementById('btn-group');
+            var elem5 = document.getElementById('h4');
+            var elem6 = document.getElementById('question');
+            var elem8 = document.getElementById('figcaption');
+            elem1.style.opacity = 1;
+            elem2.style.opacity = 1;
+            elem3.style.opacity = 1;
+            elem5.style.opacity = 1;
+            elem6.style.opacity = 1;
+            elem8.style.opacity = 0.8;
+            elem4.style.backgroundColor = "rgb(192, 211, 218)";
 
 
 
-        </script>
+            var elem7 = document.getElementById(id);
+            if (flag == 1) {
+                elem7.style.backgroundColor = "black";
+                flag = 2;
+            }
+            document.getElementById("submit").className = document.getElementById("submit").classList.replace('primary-btn', 'primary-btn-outline');
 
-        <script type="text/javascript">
-            $(function () {
-                $("input[type='radio']").change(function () {
-                    $("input[type='submit']").prop("disabled", false);
-                });
+        }
+
+
+
+
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("input[type='radio']").change(function () {
+                $("input[type='submit']").prop("disabled", false);
             });
-        </script>
+        });
+    </script>
+</body>
+
+</html>
