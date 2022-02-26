@@ -17,8 +17,8 @@ from django.contrib.auth.forms import AuthenticationForm  # add this
 # Create your views here.
 
 def Index(request):
-    signedIn = False
-    parentFlag = False
+    signedIn = True
+    parentFlag = True
     args = {"signedIn": signedIn, "parentFlag": parentFlag}
     return render(request, 'app/homepage.html', args)
 
@@ -89,5 +89,11 @@ def ChildMarketPlace(request):
 @csrf_exempt
 def ChildCourses(request):
     render_string = render_to_string("app/courses.html")
+
+    return HttpResponse(render_string)
+
+@csrf_exempt
+def ParentDashboard(request):
+    render_string = render_to_string("app/parent-dashboard.html")
 
     return HttpResponse(render_string)
