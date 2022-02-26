@@ -1,0 +1,289 @@
+/* Images Gallery Style*/
+.gallery .cc-porfolio-image figure {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .gallery .cc-porfolio-image figure img {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    opacity: 1;
+  }
+  
+  .gallery .cc-porfolio-image figure figcaption {
+    position: absolute;
+    color: #fff;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .gallery .cc-porfolio-image figure figcaption,
+  .gallery .cc-porfolio-image figure figcaption > a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .gallery .cc-porfolio-image figure figcaption > a {
+    z-index: 1000;
+    text-indent: 200%;
+    white-space: nowrap;
+    font-size: 0;
+    opacity: 0;
+  }
+
+  .btn-group {
+      z-index: 1000;
+      position: relative;
+      opacity: 0;
+      margin-top: 30px;
+  }
+
+  /* .btn-outline-primary {
+      opacity: 0;
+  } */
+
+  #btn-outline-1, #btn-outline-2, #btn-outline-3 {
+    opacity: 0;
+}
+
+  .btn-group:hover {
+    color: black;
+    background-color: rgb(192, 211, 218);
+    opacity: 100;
+  }
+
+  .btn-outline-primary:hover {
+      opacity: 100;
+  }
+
+  .btn-outline-primary {
+      color: white;
+
+  }
+
+  .btn-outline-primary:hover {
+      background-color: black;
+      border: white;
+  }
+  
+  .gallery .cc-porfolio-image figure .h4,
+  .gallery .cc-porfolio-image figure p {
+    margin: 0;
+  }
+  
+  .gallery figure.cc-effect figcaption::before,
+  .gallery figure.cc-effect figcaption::after,
+  .gallery figure.cc-effect-ios figcaption::before,
+  .gallery figure.cc-effect-ios figcaption::after {
+    position: absolute;
+    content: '';
+    opacity: 0;
+  }
+  
+  .gallery figure.cc-effect figcaption::before,
+  .gallery figure.cc-effect-ios figcaption::before {
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    -webkit-transform: scale(0, 0);
+    transform: scale(0, 0);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+  }
+  
+  .gallery figure.cc-effect figcaption::after,
+  .gallery figure.cc-effect-ios figcaption::after {
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    -webkit-transform: scale(0, 0);
+    transform: scale(0, 0);
+    -webkit-transform-origin: 100% 0;
+    transform-origin: 100% 0;
+  }
+  
+  .gallery figure.cc-effect .h4,
+  .gallery figure.cc-effect-ios .h4,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect-ios .btn-group
+
+   {
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    transition: transform 0.35s, -webkit-transform 0.35s;
+    opacity: 0;
+  }
+  
+  @media (max-width: 480px) {
+    .gallery figure.cc-effect .h4,
+    .gallery figure.cc-effect-ios .h4 {
+      font-size: 14px;
+    }
+  }
+  
+  .gallery figcaption .container {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+  }
+  
+  .gallery figure.cc-effect p,
+  .gallery figure.cc-effect input,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect button,
+  .gallery figure.cc-effect-ios p,
+  .gallery figure.cc-effect-ios button {
+    padding: 0.5em 2em;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    transition: transform 0.35s, -webkit-transform 0.35s;
+    opacity: 0;
+  }
+  
+  .gallery figure.cc-effect img,
+  .gallery figure.cc-effect .h4,
+  .gallery figure.cc-effect-ios img,
+  .gallery figure.cc-effect-ios .h4,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect-ios .btn-group
+ {
+    -webkit-transform: scale(1.06, 1.06);
+    transform: scale(1.06, 1.06);
+  }
+  
+  .gallery figure.cc-effect img,
+  .gallery figure.cc-effect figcaption::before,
+  .gallery figure.cc-effect figcaption::after,
+  .gallery figure.cc-effect p,
+  .gallery figure.cc-effect input,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect-ios img,
+  .gallery figure.cc-effect-ios figcaption::before,
+  .gallery figure.cc-effect-ios figcaption::after,
+  .gallery figure.cc-effect-ios p {
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s, -webkit-transform 0.35s;
+  }
+  
+  .gallery figure.cc-effect:hover img, .gallery figure.cc-effect-ios img .btn-group {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .gallery figure.cc-effect:hover figcaption::before,
+  .gallery figure.cc-effect:hover figcaption::after,
+  .gallery figure.cc-effect-ios figcaption::before,
+  .gallery figure.cc-effect-ios figcaption::after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  
+  .gallery figure.cc-effect:hover figcaption:before,
+  .gallery figure.cc-effect-ios figcaption:before {
+    background: rgba(27, 23, 23, 0.9);
+  }
+  
+  .gallery figure.cc-effect:hover .h4,
+  .gallery figure.cc-effect:hover p,
+  .gallery figure.cc-effect:hover .btn-group,
+  .gallery figure.cc-effect:hover button,
+  .gallery figure.cc-effect-ios .h4,
+  .gallery figure.cc-effect-ios p,
+  .gallery figure.cc-effect-ios button,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect-ios .btn-group
+ {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    color: #fff;
+  }
+  
+  .gallery figure.cc-effect:hover figcaption::after,
+  .gallery figure.cc-effect:hover .h4,
+  .gallery figure.cc-effect:hover p,
+  .gallery figure.cc-effect:hover .btn-group,
+  .gallery figure.cc-effect:hover input,
+  .gallery figure.cc-effect:hover img,
+  .gallery figure.cc-effect-ios figcaption::after,
+  .gallery figure.cc-effect-ios .h4,
+  .gallery figure.cc-effect-ios p,
+  .gallery figure.cc-effect-ios img,
+  .gallery figure.cc-effect .btn-group,
+  .gallery figure.cc-effect-ios .btn-group
+ {
+    -webkit-transition-delay: 0.15s;
+    transition-delay: 0.15s;
+  }
+  
+  /* Flip Cards */
+  /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+  .flip-card {
+    perspective: 1500px;
+    cursor: pointer;
+  }
+  
+  /* This container is needed to position the front and back side */
+  .flip-card-inner {
+    position: relative;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  .flip-card.flip-hover .flip-card-inner {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .flip-card-front, .flip-card-back {
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+  
+  /* Style the front side (fallback if image is missing) */
+  .flip-card-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  /* Style the back side */
+  .flip-card-back {
+    background-color: #fff;;
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+  }
+  
+  .flip-card .card {
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .card-content {
+    overflow-y: auto;
+  }
+  
+  body, .page-content {
+    background: #F5F7F3;
+  }
