@@ -117,6 +117,10 @@ def ChildCourses(request):
 
 @csrf_exempt
 def ParentDashboard(request):
+    # monthly_transcations = Transaction.objects.all().order_by('month')
+    # for x in monthly_transcations:
+    #     print(x.month)
+    # args = {"monthly_transcations":monthly_transcations}
     render_string = render_to_string("app/parent-dashboard.html")
 
     return HttpResponse(render_string)
