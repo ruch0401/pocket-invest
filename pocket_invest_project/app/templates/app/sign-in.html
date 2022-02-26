@@ -28,7 +28,7 @@
 </head>
 
     <section class="signin-area signin-one">
-      <div class="container">
+      <div class="container" id="signin">
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <form method="POST" action="{% url 'sign-in' %}">
@@ -74,10 +74,11 @@
                   </div>
                   <!-- form input -->
                 </div>
+              </form>
                 <div class="col-md-12">
-                  <div class="form-input rounded-buttons">
-                    <button class="btn primary-btn-outline rounded-full" type="submit">
-                      Sign Up
+                  <div class="rounded-buttons">
+                    <button class="btn primary-btn-outline rounded-full" >
+                      <a href="{% url 'sign-up' %}">Sign Up</a>
                     </button>
                   </div>
                   <!-- form input -->
@@ -96,7 +97,7 @@
               </div>
             </div>
             <!-- signin form -->
-          </form>
+         
         </div>
       </div>
       <!-- row -->
@@ -106,5 +107,10 @@
 
   <!--====== SIGNIN ONE PART ENDS ======-->
 </body>
+<script>
+  function gotosignup() {
+
+  }
+</script>
 
 </html>

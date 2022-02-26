@@ -71,7 +71,7 @@
                 <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
-                <li class="nav-item" onclick="parentAddWithdrawMoney()">
+                <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Add/Withdraw Money</a>
                 </li>
                 <li class="nav-item">
@@ -213,15 +213,16 @@
 
 <script>
   $(document).ready(function () {
-    childDashboardFunction();
+    childDashboardFunction('{{ user.user_name }}');
     parentDashboardFunction('{{ user.user_name }}');
   });
 
-  function childDashboardFunction() {
+  function childDashboardFunction(username) {
     $.ajax({
       method: "POST",
       url: "/child-dashboard/",
       data: {
+        "username" :username,
       },
       success: function (response) {
         $("#marketPlace").hide();
@@ -233,12 +234,12 @@
     })
   }
 
-  function parentAddWithdrawMoney() {
+  function parentAddWithdrawMoney(username) {
     $.ajax({
       method: "POST",
       url: "/parent-add-money/",
       data :{
-
+        "username" : username,
       },
       success : function (response) {
         $("#parentDashboard").hide();
