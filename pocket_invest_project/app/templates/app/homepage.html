@@ -31,8 +31,15 @@
   <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 </head>
 
@@ -248,5 +255,6 @@
     })
   }
 </script>
+<script type="text/javascript" src="{% static 'js/charts.js' %}"></script>
 
 </html>
