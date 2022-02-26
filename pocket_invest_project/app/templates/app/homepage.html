@@ -65,8 +65,8 @@
             <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
               <ul class="navbar-nav m-auto">
                 {% if signedIn and parentFlag %}
-                <li class="nav-item">
-                  <a href="javascript:void(0)">About</a>
+                <li class="nav-item" onclick="parentDashboardFunction()">
+                  <a href="javascript:void(0)">Dashboard</a>
                 </li>
                 <li class="nav-item">
                   <a href="javascript:void(0)">Services</a>
@@ -178,8 +178,10 @@
   </section>
   {% endif %}
   <!--====== HEADER ONE PART ENDS ======-->
-
-  {% if signedIn and not parentFlag %}
+  {% if signedIn and parentFlag %}
+  <div id="parentDashboard">
+  </div>
+  {% elif signedIn and not parentFlag %}
   <div id="childDashboard">
   </div>
   <div id="courses">
@@ -205,6 +207,7 @@
 <script>
   $(document).ready(function () {
     childDashboardFunction();
+    parentDashboardFunction();
   });
 
   function childDashboardFunction() {
@@ -219,6 +222,20 @@
         $("#childDashboard").show();
         $("#childDashboard").html("")
         $("#childDashboard").append(response)
+      }
+    })
+  }
+
+  function parentDashboardFunction() {
+    $.ajax({
+      method: "POST",
+      url: "/parent-dashboard/",
+      data: {
+      },
+      success: function (response) {
+        $("#parentDashboard").show();
+        $("#parentDashboard").html("")
+        $("#parentDashboard").append(response)
       }
     })
   }
@@ -254,7 +271,9 @@
       }
     })
   }
+
+
 </script>
-<script type="text/javascript" src="{% static 'js/charts.js' %}"></script>
+
 
 </html>
