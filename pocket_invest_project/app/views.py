@@ -1,3 +1,4 @@
+from inspect import ArgSpec
 from pickle import FALSE
 import re
 from django.shortcuts import render
@@ -8,6 +9,7 @@ from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
+from .models import Relationship, User
 from .models import Transaction, User
 import uuid
 from django.contrib.auth import login, authenticate  # add this
@@ -31,21 +33,11 @@ def SignIn(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            parentFlag = request.POST.get('is-parent')
-
-            print(form.cleaned_data)
-
-            print(type(parentFlag))
-
-            print("Parent flag is: " + str(parentFlag))
 
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-
-                print(type(user))
-
                 temp = User.objects.filter(user_name=user)
                 
                 if temp[0].user_type == 0:
@@ -53,7 +45,6 @@ def SignIn(request):
                 else:
                     parentFlag = True
                 signedIn = True
-
                 args = {"signedIn": signedIn, "parentFlag": parentFlag, "user":temp[0]}
                 return render(request, 'app/homepage.html', args)
             else:
@@ -117,6 +108,7 @@ def ChildCourses(request):
 
     return HttpResponse(render_string)
 
+
 @csrf_exempt
 def ParentDashboard(request):
     username = request.POST.get("username")
@@ -127,3 +119,43 @@ def ParentDashboard(request):
     render_string = render_to_string("app/parent-dashboard.html",args)
 
     return HttpResponse(render_string)
+
+
+@csrf_exempt
+def Profile(request):
+    if request.POST and "submit-access-code" not in request.POST:
+        currentusername = request.POST.get("user")
+        print(currentusername)
+        args = {"currentusername": currentusername}
+        return render(request, 'app/profile.html', args)
+
+    if request.POST and "submit-access-code" in request.POST:
+        uniqueStringToSearch = request.POST.get("access_code")
+
+        # get current and parent user strings
+        currentusername = request.POST.get("hiddencurrentuser")
+        parentusername = request.POST.get("username")
+
+        print(currentusername)
+        print(parentusername)
+
+        # fetch current and parent user objects
+        currentUserObject = User.objects.filter(user_name=currentusername)
+        parentUserObject = User.objects.filter(user_name=parentusername)
+
+        print(currentUserObject)
+        print(parentUserObject)
+
+        # add data to relationship model
+        relationship = Relationship()
+        relationship.parent = parentUserObject[0]
+        relationship.child = currentUserObject[0]
+        relationship.random_id = uniqueStringToSearch
+
+        if uniqueStringToSearch == parentUserObject[0].random_id:
+            relationship.save()
+        else:
+            print('Random ID did not match')
+            return render(request, 'app/homepage.html')
+
+        return render(request, 'app/profile.html')

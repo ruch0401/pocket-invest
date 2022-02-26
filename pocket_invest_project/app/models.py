@@ -1,5 +1,6 @@
 from datetime import date
 from email.mime import image
+from multiprocessing import parent_process
 from pyexpat import model
 from random import random
 from django.db import models
@@ -24,6 +25,14 @@ class User(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name + " " + self.email_id
+
+
+class Relationship(models.Model):
+    parent = models.ForeignKey(
+        User, related_name='parent2child', on_delete=models.CASCADE)
+    child = models.ForeignKey(
+        User, related_name='child2parent', on_delete=models.CASCADE)
+    random_id = models.CharField(max_length=100, null=True, blank=True)
 
 
 class Transaction(models.Model):
