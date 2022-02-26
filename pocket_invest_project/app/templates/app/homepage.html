@@ -68,7 +68,7 @@
             <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
               <ul class="navbar-nav m-auto">
                 {% if signedIn and parentFlag %}
-                <li class="nav-item" onclick="parentDashboardFunction()">
+                <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
                 <li class="nav-item">
@@ -210,7 +210,7 @@
 <script>
   $(document).ready(function () {
     childDashboardFunction();
-    parentDashboardFunction();
+    parentDashboardFunction('{{ user.user_name }}');
   });
 
   function childDashboardFunction() {
@@ -229,11 +229,12 @@
     })
   }
 
-  function parentDashboardFunction() {
+  function parentDashboardFunction(username) {
     $.ajax({
       method: "POST",
       url: "/parent-dashboard/",
       data: {
+        "username": username,
       },
       success: function (response) {
         $("#parentDashboard").show();
