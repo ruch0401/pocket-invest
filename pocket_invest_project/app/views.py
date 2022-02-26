@@ -22,6 +22,7 @@ def Index(request):
     return render(request, 'app/homepage.html', args)
 
 
+@csrf_exempt
 def SignIn(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -41,7 +42,18 @@ def SignIn(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("/")
+
+                print(type(user))
+
+                temp = User.objects.filter(user_name=user)
+                if temp[0].user_type == 0:
+                    parentFlag = False
+                else:
+                    parentFlag = True
+                signedIn = True
+
+                args = {"signedIn": signedIn, "parentFlag": parentFlag}
+                return render(request, 'app/homepage.html', args)
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -50,6 +62,7 @@ def SignIn(request):
     return render(request=request, template_name="app/sign-in.html", context={"login_form": form})
 
 
+@csrf_exempt
 def SignUp(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
