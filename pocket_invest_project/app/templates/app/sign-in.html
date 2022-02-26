@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!--====== Required meta tags ======-->
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!--====== Title ======-->
+  <title>Sign In and Sign Up | Ayro UI</title>
+
+  <!--====== Favicon Icon ======-->
+  <link rel="shortcut icon" href="{% static 'images/favicon.svg' %}" type="image/svg" />
+
+  <!--====== Bootstrap css ======-->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+  <!--====== Line Icons css ======-->
+  <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
+
+  <!--====== Style css ======-->
+  <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'scss/sign-in-up/sign-in-up-01.css' %}" />
+</head>
+
+    <section class="signin-area signin-one">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+            <form method="POST" action="{% url 'sign-in' %}">
+              {% csrf_token %}
+              <div class="signin-form form-style-two rounded-buttons">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label> Username for your account </label>
+                      <div class="input-items default">
+                        <input
+                          type="text"
+                          placeholder="Username"
+                          id="username"
+                          name="username"
+                        />
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>Password for your account</label>
+                      <div class="input-items default">
+                        <input
+                          type="password"
+                          placeholder="Password"
+                          id="password"
+                          name="password"
+                        />
+                        <i class="lni lni-key"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- form input -->
+                </div>
+                <div class="col-md-6">
+                  <div class="form-input rounded-buttons">
+                    <button class="btn primary-btn rounded-full" type="submit">
+                      Sign In!
+                    </button>
+                  </div>
+                  <!-- form input -->
+                </div>
+                <div class="col-md-6">
+                  <div class="form-input rounded-buttons">
+                    <button class="btn primary-btn-outline rounded-full" type="submit">
+                      Sign Up
+                    </button>
+                  </div>
+                  <!-- form input -->
+                </div>
+                <div class="col-md-12">
+                  <div class="form-input text-center">
+                    <p class="text">
+                      By signing in you agree with the
+                      <a href="javascript:void(0)">Terms and Conditions</a>
+                      and
+                      <a href="javascript:void(0)">Privacy</a>
+                    </p>
+                  </div>
+                  <!-- form input -->
+                </div>
+              </div>
+            </div>
+            <!-- signin form -->
+          </form>
+        </div>
+      </div>
+      <!-- row -->
+    </div>
+    <!-- container -->
+  </section>
+
+  <!--====== SIGNIN ONE PART ENDS ======-->
+</body>
+
+</html>
