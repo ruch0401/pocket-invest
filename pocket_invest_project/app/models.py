@@ -1,4 +1,4 @@
-from csv import unregister_dialect
+from datetime import date
 from email.mime import image
 from pyexpat import model
 from random import random
@@ -33,9 +33,6 @@ class Transaction(models.Model):
         User, related_name='receiver2sender', on_delete=models.CASCADE)
     amount = models.CharField(max_length=100)
     type_of_transaction = models.IntegerField()
-
-    def __str__(self):
-        return self.sender + " " + self.receiver + " " + self.amount + " " + self.type_of_transaction
 
 
 class Course(models.Model):
