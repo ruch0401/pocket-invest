@@ -3,12 +3,11 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import VendorDetails
 from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
-from .models import Parent, Child
+from .models import User
 import uuid
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
@@ -26,9 +25,18 @@ def Index(request):
 def SignIn(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
+        print(form.errors)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            parentFlag = request.POST.get('is-parent')
+
+            print(form.cleaned_data)
+
+            print(type(parentFlag))
+
+            print("Parent flag is: " + str(parentFlag))
+
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -47,18 +55,20 @@ def SignUp(request):
         form = NewUserForm(request.POST)
         print(form.errors)
         if form.is_valid():
-            parent = Parent()
-            parent.first_name = request.POST.get("first_name")
-            parent.last_name = request.POST.get("last_name")
-            parent.user_name = request.POST.get("username")
-            parent.email_id = request.POST.get("email")
-            parent.password = request.POST.get("password1")
-            parent.random_id = uuid.uuid4()
+            user = User()
+            user.first_name = request.POST.get("first_name")
+            user.last_name = request.POST.get("last_name")
+            user.user_name = request.POST.get("username")
+            user.email_id = request.POST.get("email")
+            user.password = request.POST.get("password1")
+            user.random_id = uuid.uuid4()
 
-            parent.save()
+            if request.POST.get("is-parent") == "no":
+                user.user_type = 0
+            else:
+                user.user_type = 1
 
-            print('This is the parent first name: ' + parent.first_name)
-
+            user.save()
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful.")
