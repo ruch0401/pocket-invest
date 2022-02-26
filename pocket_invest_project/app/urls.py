@@ -11,4 +11,5 @@ urlpatterns = [
     path('parent-dashboard/', views.ParentDashboard, name='ParentDashboard'),
     path('profile/', views.Profile, name='Profile'),
     path('quiz/', views.Quiz, name='Quiz'),
+    path('module/', views.Module, name='Module'),
 ]

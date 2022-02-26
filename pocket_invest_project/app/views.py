@@ -165,3 +165,9 @@ def Quiz(request):
     render_string = render_to_string("app/quiz.html")
 
     return HttpResponse(render_string)
+
+@csrf_exempt
+def Module(request):
+    render_string = render_to_string("app/module.html")
+
+    return HttpResponse(render_string)
