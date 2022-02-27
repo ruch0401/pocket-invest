@@ -72,7 +72,6 @@
                                     <table class="table table-hover">
                                         <thead>
                                           <tr>
-                                            <th scope="col">#</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Transaction Details</th>
                                             <th scope="col">Transaction Value</th>
@@ -83,7 +82,6 @@
                                         <tbody>
                                         {% for trans in transactions %}
                                           <tr>
-                                            <th scope="row">{{ trans.id }}</th>
                                             <td>{{ trans.date }}</td>
                                             <td>{{ trans.details }}</td>
                                             <td>{{ trans.amount }}</td>

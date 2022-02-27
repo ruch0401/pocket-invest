@@ -138,9 +138,6 @@
                   </li>
                 </ul>
                 {% else %}
-                <li class="nav-item">
-                  <a href="javascript:void(0)">About</a>
-                </li>
                 {% endif %}
               </ul>
             </div>
@@ -219,22 +216,7 @@
       </div>
       <!-- header-shape -->
     </div>
-      
-      <!-- header content area -->
-    </section>
-    {% endif %}
-    <!--====== HEADER ONE PART ENDS ======-->
-    {% if signedIn and parentFlag %}
-    <div id="parentDashboard"></div>
-    {% elif signedIn and not parentFlag %}
-    <div id="childDashboard"></div>
-    <div id="courses"></div>
-    <div id="portfolio"></div>
-    <div id="profile"></div>
-    <div id="marketPlace"></div>
-    {% endif %}
-
-
+    
     <!-- header content area -->
   </section>
   {% endif %}
