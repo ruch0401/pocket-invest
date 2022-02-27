@@ -53,16 +53,16 @@
       },
       success: function (response) {
 
-        // window.alert(username);
+        // console.log(response)
 
         $("#marketPlace").hide();
         $("#profile").hide();
         $("#portfolio").hide();
         $("#childDashboard").hide();
         $("#courses").hide();
-        $("#module").show();
-        $("#module").html("")
-        $("#module").append(response)
+        $("#modules").show();
+        $("#modules").html("")
+        $("#modules").append(response)
       },
     });
   }

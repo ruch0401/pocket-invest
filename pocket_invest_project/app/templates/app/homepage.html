@@ -81,7 +81,7 @@
                 <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
-                <li class="nav-item" onclick="coursesFunction()">
+                <li class="nav-item" onclick="coursesFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Courses</a>
                 </li>
                 <li class="nav-item" onclick="portfolioFunction('{{ user.user_name }}')">
@@ -352,6 +352,7 @@
         $("#courses").hide();
         $("#marketPlace").hide();
         $("#profile").hide();
+        $("#modules").hide();
         $("#portfolio").show();
         $("#portfolio").html("");
         $("#portfolio").append(response);

@@ -2,7 +2,7 @@
 
 <div class="container">
 
-<h2 style="margin-top: 100px; font-family: Arial, Helvetica, sans-serif;"> "Have a look at the curated course content, straight from our financial advisors!"</h2>
+<h4 style="margin-top: 100px; font-family: Arial, Helvetica, sans-serif;"> Here's a list of curated content, straight from our financial advisors to help you get started with finances!</h4>
 <h4 style="margin-top: 100px; font-family: Arial, Helvetica, sans-serif; margin-top: 20px; margin-bottom: -30px;">Current Course : <span style="color: blue; font-weight: bold;">{{coursename}}</span></h4>
 
 </div>
@@ -46,8 +46,8 @@
           <div class="row justify-content-center">
             <div class="col-lg-10">
               <div class="video-content text-center">
-                <img src="{% static 'images/video/video.png'%}" alt="Video" />
-                <a class="video-popup glightbox" href="https://www.youtube.com/watch?v=NJbXptdalP0"
+                <img src="{% static 'images/video/financial-education.jpeg'%}" alt="Video" />
+                <a class="video-popup glightbox" href="'{{ module.video_url }}'"
                   onclick="updateProgress('{{module.id}}')">
                   <i class="lni lni-play"></i>
                 </a>
@@ -91,7 +91,7 @@
 <script>
   //========= glightbox
   const myGallery = GLightbox({
-    href: "{% static 'video/video.mp4'%}",
+    href: "https://www.youtube.com/watch?v=rFs1DfXTMU0",
     type: "video",
     source: "local", //vimeo, youtube or local
     width: 900,
@@ -139,16 +139,16 @@
 
       },
       success: function (response) {
-
+        console.log(response)
         $("#marketPlace").hide();
         $("#profile").hide();
         $("#portfolio").hide();
         $("#childDashboard").hide();
         $("#courses").hide();
         $("#module").hide();
-        $("#module").show();
-        $("#module").html("")
-        $("#module").append(response)
+        $("#modules").show();
+        $("#modules").html("")
+        $("#modules").append(response)
       },
     });
   }
