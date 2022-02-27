@@ -115,12 +115,13 @@ def ChildMarketPlace(request):
 
     return HttpResponse(render_string)
 
+
 @csrf_exempt
 def ChildCourses(request):
     username = request.POST.get("username")
     user = User.objects.filter(user_name=username)
     courses = Course.objects.all()
-    args = {"courses": courses,"user":user[0]}
+    args = {"courses": courses, "user": user[0]}
     render_string = render_to_string("app/courses.html", args)
 
     return HttpResponse(render_string)
@@ -302,14 +303,16 @@ def BuyItem(request):
         title = 'Insufficient balance'
 
     print(title)
-    response = { 'title' : title, 'message':body}
+    response = {'title': title, 'message': body}
     return JsonResponse(response)
+
 
 @csrf_exempt
 def Quiz(request):
     render_string = render_to_string("app/quiz.html")
 
     return HttpResponse(render_string)
+
 
 @csrf_exempt
 def module(request):
@@ -323,9 +326,10 @@ def module(request):
     print(user[0])
     print(topic)
     print(coursename)
-    args = {"modules": modules,"user":user[0], "topic":topic, "coursename":coursename}
+    args = {"modules": modules,
+            "user": user[0], "topic": topic, "coursename": coursename}
 
-    render_string = render_to_string("app/module.html",args)
+    render_string = render_to_string("app/module.html", args)
 
     response = {'title': title, 'message': body}
 
@@ -345,12 +349,12 @@ def Portfolio(request):
         current_investment_value += x.current_investment_value
 
     if (total_investment_value == 0 or current_investment_value == 0):
-            total_investment_value = 0
-            current_investment_value = 0
-            percentage_change = 0
+        total_investment_value = 0
+        current_investment_value = 0
+        percentage_change = 0
     else:
         percentage_change = round(
-        ((current_investment_value - total_investment_value) / total_investment_value) * 100, 2)
+            ((current_investment_value - total_investment_value) / total_investment_value) * 100, 2)
 
     if request.method == "POST" and 'investmentid' in request.POST:
         # 1. change overall view of investment
@@ -366,7 +370,8 @@ def Portfolio(request):
             current_investment_value = 0
             percentage_change = 0
         else:
-            percentage_change = round(((current_investment_value - total_investment_value) / total_investment_value) * 100, 2)
+            percentage_change = round(
+                ((current_investment_value - total_investment_value) / total_investment_value) * 100, 2)
 
         # user[0].virtual_money_balance = int(user[0].virtual_money_balance) + int(investment[0].current_investment_value)
         user.update(virtual_money_balance=(
@@ -374,10 +379,9 @@ def Portfolio(request):
 
         Investment.objects.filter(id=investmentid).delete()
         investments = Investment.objects.filter(child=user[0])
-        
-        
+
         args = {"username": username, "investments": investments, "total_investment_value": total_investment_value,
-            "current_investment_value": current_investment_value, "percentage_change": percentage_change}
+                "current_investment_value": current_investment_value, "percentage_change": percentage_change}
         print(investments)
         render_string = render_to_string("app/portfolio.html", args)
         return HttpResponse(render_string)
