@@ -110,14 +110,10 @@ class InvestmentCategory(models.Model):
 
 
 class Investment(models.Model):
-    investment_category = models.ForeignKey(
-        InvestmentCategory, on_delete=models.CASCADE)
+    child = models.ForeignKey(User, on_delete=models.CASCADE)
     investment_name = models.CharField(max_length=100)
-    investment_text = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.investment_category + " " + self.investment_name + " " + self.investment_text + " " + self.investment_media
-
+    amount_invested = models.IntegerField()
+    current_investment_value = models.IntegerField()
 
 class Portfolio(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -126,3 +122,10 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return self.user_id + " " + self.investment_id + " " + self.investment_amount
+
+class CaseStudies(models.Model):
+    case_study_title = models.CharField(max_length=100)
+    case_study_investment_name = models.CharField(max_length=100)
+    case_study_content = models.TextField()
+    case_study_value = models.IntegerField()
+    

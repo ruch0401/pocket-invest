@@ -8,6 +8,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!--====== Title ======-->
+  <title>Pocket Invest</title>
 
   <!--====== Title ======-->
   <title>Navbar | Ayro UI</title>
@@ -21,18 +23,23 @@
   <!--====== Line Icons css ======-->
   <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
 
+
   <!--====== Style css ======-->
   <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/sign-in-up/sign-in-up-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/cards/card-01.css'%}" />
 
   <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/portfolios/portfolio-02.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/tabs-accordions/accordions.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/section-title/section-title-04.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
   <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/section-title/section-title-07.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/tabs-accordions/tabs.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/videos/video-01.css'%}" />
   <link rel="stylesheet" href="{% static 'css/glightbox.min.css'%}" />
@@ -57,16 +64,9 @@
       <div class="row">
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="javascript:void(0)">
-              <img src="{% static 'images/white-logo.svg' %}" alt="Logo" />
+            <a class="navbar-brand" href="javascript:void(0)" style="width: 7%; height: 7%;">
+              <img src="{% static 'images/logo-2.png' %}" alt="Logo" style="width: 80%; height: 80%;" />
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarOne"
-              aria-controls="navbarOne" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="toggler-icon"></span>
-              <span class="toggler-icon"></span>
-              <span class="toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
               <ul class="navbar-nav m-auto">
@@ -77,20 +77,14 @@
                 <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Add/Withdraw Money</a>
                 </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Notification</a>
-                </li>
                 {% elif signedIn and not parentFlag %}
                 <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
-                <li class="nav-item" onclick="coursesFunction('{{ user.user_name }}')">
+                <li class="nav-item" onclick="coursesFunction()">
                   <a href="javascript:void(0)">Courses</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="portfolioFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Portfolio</a>
                 </li>
                 <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
@@ -115,7 +109,7 @@
               </ul>
               {% else %}
               <ul>
-                <li>
+                <li> 
                   <a class="btn primary-btn-outline" href="{% url 'sign-in' %}">Sign In</a>
                 </li>
                 <li>
@@ -139,7 +133,7 @@
 
   {% if not signedIn %}
   <section class="header-area header-one">
-    <div class="header-content-area">
+    <div class="header-content-area" id="headerContentArea">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 col-12">
@@ -181,19 +175,20 @@
       </div>
       <!-- header-shape -->
     </div>
-
     <!-- header content area -->
   </section>
   {% endif %}
   <!--====== HEADER ONE PART ENDS ======-->
   {% if signedIn and parentFlag %}
   <div id="parentDashboard"></div>
+  <div id="parentaddmoney"></div>
   {% elif signedIn and not parentFlag %}
   <div id="childDashboard"></div>
   <div id="courses"></div>
-  <div id="profile"></div>
+  <div id="portfolio"></div>
   <div id="marketPlace"></div>
-  <div id="module"></div>
+  <div id="profile"></div>
+  <div id="modules"></div>
   {% endif %}
 
   <!--====== Bootstrap js ======-->
@@ -224,6 +219,8 @@
         "username": username,
       },
       success: function (response) {
+        $("#courses").hide();
+        $("#portfolio").hide();
         $("#marketPlace").hide();
         $("#courses").hide();
         $("#childDashboard").show();
@@ -241,12 +238,13 @@
         "username": username,
       },
       success: function (response) {
+        console.log(response)
         $("#parentDashboard").hide();
         $("#parentaddmoney").show();
         $("#parentaddmoney").html("")
         $("#parentaddmoney").append(response)
-      }
-    })
+      },
+    });
   }
 
 
@@ -258,6 +256,7 @@
         "username": username,
       },
       success: function (response) {
+        $("#parentaddmoney").hide();
         $("#parentDashboard").show();
         $("#parentDashboard").html("")
         $("#parentDashboard").append(response)
@@ -276,6 +275,7 @@
       success: function (response) {
         $("#childDashboard").hide();
         $("#courses").hide();
+        $("#portfolio").hide();
         $("#profile").hide();
         $("#marketPlace").show();
         $("#marketPlace").html("")
@@ -335,6 +335,26 @@
           "this is the response returned from ajax call ",
           response
         );
+      },
+    });
+  }
+
+
+  function portfolioFunction(username) {
+    $.ajax({
+      method: "POST",
+      url: "/portfolio/",
+      data: {
+        "username": username
+      },
+      success: function (response) {
+        $("#childDashboard").hide();
+        $("#courses").hide();
+        $("#marketPlace").hide();
+        $("#profile").hide();
+        $("#portfolio").show();
+        $("#portfolio").html("");
+        $("#portfolio").append(response);
       },
     });
   }

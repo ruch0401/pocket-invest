@@ -36,8 +36,8 @@ Highcharts.chart('pie-chart', {
         type: 'pie',
         name: 'Amount',
         data: [
-            ['Money Blocked', 123220],
-            ['Money Unlocked', 463730]
+            ['Virtual Money', 123220],
+          ['Real Money', 463730]
         ]
     }]
 });
