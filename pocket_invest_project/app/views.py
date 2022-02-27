@@ -106,7 +106,9 @@ def SignUp(request):
 @csrf_exempt
 def ChildDashboard(request):
     username = request.POST.get('username')
+    print(username)
     child = User.objects.filter(user_name=username)
+    print(child)
     args = {"child": child[0]}
     render_string = render_to_string("app/child-dashboard.html", args)
 
@@ -176,11 +178,12 @@ def ParentDashboard(request):
     print(virtualMoney)
     print(realMoney)
     virtualRealPieChartArgs = [
-        ['Money Blocked', realMoney], ['Money Unlocked', virtualMoney]]
+        ['Real Money', realMoney], ['Virtual Money', virtualMoney]]
 
     # chart 4 - get child expenditures
     listOfDict4 = []
     for y in relationships:
+        print("Y - ")
         print(y.child.first_name)
         transaction_ids = Transaction.objects.filter(
             sender=y.child, type_of_transaction=1).order_by('receiver').order_by('date')
@@ -233,12 +236,12 @@ def ParentUpdateMoney(request):
         if(operation == 'add'):
             child.update(real_money_balance=(int(child[0].real_money_balance) + int(inputAmount)))
             if(child[0].gender == 1):
-                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount*1.5)))
+                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(int(inputAmount)*1.5)))
             else:
                 child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount)))
         elif(operation == 'subtract' and int(child[0].real_money_balance) - int(inputAmount) > 0):
             child.update(real_money_balance=(int(child[0].real_money_balance) - int(inputAmount)))
-
+        
         render_string = render_to_string("app/parent-dashboard.html")
 
         return HttpResponse(render_string)
@@ -316,7 +319,8 @@ def BuyItem(request):
         transaction.details = 'purchased a gift card from ' + \
             name + ' worth ' + cost + ' points.'
         transaction.outcome = "Successful"
-        transaction.type_of_transaction = "Mast wala"  # To be updated
+        transaction.type_of_transaction = 1  # To be updated
+        transaction.save()
 
     else:
         body = 'Oops! You do not have sufficient balance to buy this item. You can invest your money to earn more points to buy more exciting stuff!'
