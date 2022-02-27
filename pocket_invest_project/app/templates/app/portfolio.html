@@ -1,0 +1,196 @@
+{% load static %}
+<section style="margin-top: 3%;">
+    <div class="row" style="padding-left: 3%; padding-right: 3%;">
+        <div class="col-lg-6 col-12">
+            <div class="section-title-seven">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12" style="padding-bottom: 5%;">
+                            <div class="section-title align-center">
+                                <span> Total Amount Invested </span>
+                                <h2 class="fw-bold">{{ total_investment_value }}</h2>
+                            </div>
+                        </div>
+                        <div class="col-12" style="padding-bottom: 5%;">
+                            <div class="section-title align-center">
+                                <span> Current Investment Value </span>
+                                <h2 class="fw-bold">{{ current_investment_value }}</h2>
+                            </div>
+                        </div>
+                        <div class="col-12" style="padding-bottom: 5%;">
+                            <div class="section-title align-center">
+                                <span> % Change </span>
+                                <h2 class="fw-bold">{{ percentage_change }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- container -->
+            </div>
+        </div>
+        <div class="col-lg-6 col-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr style="text-align: center; vertical-align: middle;">
+                        <th scope="col">Investment Name</th>
+                        <th scope="col">Amount Invested</th>
+                        <th scope="col">Current Investment Value</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for investment in investments %}
+                    <tr style="text-align: center; vertical-align: middle;">
+                        <td>{{ investment.investment_name }}</td>
+                        <td>{{ investment.amount_invested }}</td>
+                        <td>{{ investment.current_investment_value }}</td>
+                        <td><button id="{{ investment.id }}" class="btn primary-btn-outline"
+                                onclick="sendSellButtonValue('{{ username }}', '{{ investment.id }}')"
+                                value="{{ investment.id }}">Sell</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <section class="portfolio-area portfolio-two">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xxl-6 col-xl-7 col-lg-8">
+                        <div class="section-title text-center mb-5">
+                            <h2 class="mb-3 fw-bold">Build your Portfolio</h2>
+                            <p class="text-lg">
+                                Learn how to make good investing decisions using our case studies and grow your virtual
+                                coins to later
+                                reedem them for coupons on our market place!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="single-accordion mt-5">
+                            <div class="accordion-style-two">
+                                <div class="accordion" id="accordionTwo">
+                                    {% for case in case_studies %}
+                                    <div class="card">
+                                        <div class="card-header" id="headingSix{{case.id}}">
+                                            <a href="#collapseSix" data-bs-toggle="collapse" role="button"
+                                                aria-expanded="true">{{case.case_study_title}}</a>
+                                        </div>
+
+                                        <div id="collapseSix" class="collapse show" data-bs-parent="#accordionTwo">
+                                            <div class="card-body">
+                                                <p class="text">{{case.case_study_content}}</p>
+                                                <p id="cost" style="font-weight: bold; margin-top: 2%;">Cost - {{case.case_study_value}}</p>
+                                                <button id="buy-button" class="btn primary-btn-outline"
+                                                    onclick="buyFunction('{{ username }}', '{{ case.id }}')" style="margin-top: 3%;">Buy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <!-- card -->
+                                </div>
+                            </div>
+                            <!-- card -->
+                        </div>
+                        <!-- accordion style one -->
+                    </div>
+                </div>
+            </div>
+            <!-- container -->
+        </section>
+    </div>
+</section>
+<script src="../assets/js/glightbox.min.js"></script>
+<script>
+    //============== isotope masonry portfolio-two
+    const filters = document.querySelectorAll(".portfolio-menu button");
+
+    filters.forEach((filter) => {
+        filter.addEventListener("click", function () {
+            // ==== Filter btn toggle
+            let filterBtn = filters[0];
+            while (filterBtn) {
+                if (filterBtn.tagName === "BUTTON") {
+                    filterBtn.classList.remove("active");
+                }
+                filterBtn = filterBtn.nextSibling;
+            }
+            this.classList.add("active");
+
+            // === filter
+            let selectedFilter = filter.getAttribute("data-filter");
+            let itemsToHide = document.querySelectorAll(
+                `.grid .col-lg-4:not([data-filter='${selectedFilter}'])`
+            );
+            let itemsToShow = document.querySelectorAll(
+                `.grid [data-filter='${selectedFilter}']`
+            );
+
+            if (selectedFilter == "all") {
+                itemsToHide = [];
+                itemsToShow = document.querySelectorAll(".grid [data-filter]");
+            }
+
+            itemsToHide.forEach((el) => {
+                el.classList.add("hide");
+                el.classList.remove("show");
+            });
+
+            itemsToShow.forEach((el) => {
+                el.classList.remove("hide");
+                el.classList.add("show");
+            });
+        });
+    });
+
+    //========= glightbox
+    const myGallery2 = GLightbox({
+        selector: ".glightbox2",
+        type: "image",
+        width: 900,
+    });
+
+    function sendSellButtonValue(username, investmentid) {
+        console.log("BRRRR: ", username, investmentid)
+        $.ajax({
+            method: "POST",
+            url: "/portfolio/",
+            data: {
+                "username": username,
+                "investmentid": investmentid
+            },
+            success: function (response) {
+                $("#childDashboard").hide();
+                $("#courses").hide();
+                $("#marketPlace").hide();
+                $("#portfolio").show();
+                $("#portfolio").html("");
+                $("#portfolio").append(response);
+            }
+        });
+    }
+
+    function buyFunction(username, case_study_id) {
+        console.log('username', username);
+        $.ajax({
+            method: "POST",
+            url: "/portfolio/",
+            data: {
+                "username": username,
+                "purpose": 'buy',
+                "case_study": case_study_id
+            },
+            success: function (response) {
+                $("#childDashboard").hide();
+                $("#courses").hide();
+                $("#marketPlace").hide();
+                $("#portfolio").show();
+                $("#portfolio").html("");
+                $("#portfolio").append(response);
+            }
+        });
+    }
+</script>

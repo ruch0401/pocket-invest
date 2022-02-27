@@ -1,0 +1,72 @@
+{% load static %}
+<section class="card-area">
+  <div class="container">
+    <div class="row justify-content-center" id="courses">
+      {% for course in courses %}
+      <div class="col-lg-8">
+        <div class="single-card card-style-two">
+          <div class="row no-gutters align-items-center">
+            <div class="col-sm-6">
+              <div class="card-image">
+                <img src="{{ course.image.url }}" alt="Image" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card-content">
+                <h4 class="card-title">
+                  <a href="javascript:void(0)">{{course.course_name}}</a>
+                </h4>
+                <p class="text">
+                  {{course.topic}}
+                </p>
+
+                <div class="card-btn rounded-buttons">
+                  <a class="btn primary-btn rounded-full"
+                    onclick="openCourse('{{course.course_name}}','{{user.user_name}}','{{course.topic}}')">
+                    GET STARTED
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- single-card -->
+      </div>
+      {% endfor %}
+      <div> -->
+
+      </div>
+      <!-- row -->
+    </div>
+    <!-- container -->
+</section>
+
+<script>
+  function openCourse(coursename, username, topic) {
+    $.ajax({
+      method: "POST",
+      url: "/module/",
+      data: {
+        "username": username,
+        "coursename": coursename,
+        "topic": topic,
+      },
+      success: function (response) {
+
+        // console.log(response)
+
+        $("#marketPlace").hide();
+        $("#profile").hide();
+        $("#portfolio").hide();
+        $("#childDashboard").hide();
+        $("#courses").hide();
+        $("#modules").show();
+        $("#modules").html("")
+        $("#modules").append(response)
+      },
+    });
+  }
+
+
+
+</script>

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--====== Required meta tags ======-->
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!--====== Title ======-->
+    <title>Sign In and Sign Up | Ayro UI</title>
+
+    <!--====== Favicon Icon ======-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.svg' %}"
+      type="image/svg"
+    />
+
+    <!--====== Bootstrap css ======-->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+    <!--====== Line Icons css ======-->
+    <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
+
+    <!--====== Style css ======-->
+    <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+
+    <!--====== Line Icons css ======-->
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'scss/sign-in-up/sign-in-up-01.css' %}"
+    />
+  </head>
+
+  <body>
+    <!--====== SIGNIN ONE PART START ======-->
+
+    <section class="signin-area signin-one">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+            <form method="POST" action="{% url 'sign-up' %}">
+              {% csrf_token %}
+              <div class="signin-form form-style-two rounded-buttons">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>
+                        Please enter your First Name
+                      </label>
+                      <div class="input-items default">
+                        <input type="text" placeholder="First Name"  id='first_name' name='first_name' required/>
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>
+                        Please enter your Last Name
+                      </label>
+                      <div class="input-items default">
+                        <input type="text" placeholder="Last Name"  id='last_name' name='last_name' required/>
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>
+                        Please enter your Username
+                      </label>
+                      <div class="input-items default">
+                        <input type="text" placeholder="Username"  id='username' name='username' required/>
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>
+                        Please enter your Email ID
+                      </label>
+                      <div class="input-items default">
+                        <input type="text" placeholder="Email ID"  id='email' name='email' required/>
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>
+                        Please enter your Password
+                      </label>
+                      <div class="input-items default">
+                        <input type="password" placeholder="Password"  id='password1' name='password1' required />
+                        <i class="lni lni-user"></i>
+                      </div>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>Confirm Password</label>
+                      <div class="input-items default">
+                        <input type="password" placeholder="Re-type Password" id="password2" name='password2' required/>
+                        <i class="lni lni-key"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label> You are a  </label>  
+                      <label class="switch-btn-text">
+                        <input type="checkbox" id="is-parent" name="is-parent" value="no"/>
+                        <div class="switch-body">
+                           <span class="slide-text">
+                              <span class="text active">Parent</span>
+                           </span>
+                           <span class="slide">
+                              <span class="icon active-icon">
+                                  <i class="lni"></i>
+                              </span>
+                              <span class="icon inactive-icon">
+                                  <i class="lni"></i>
+                              </span>
+                           </span>
+                           <span class="slide-text">
+                           <span class="text inactive">Child</span>
+                           </span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                    <label>Gender   </label>  
+                    <label class="switch-btn-text">
+                      <select id="gender" name="gender" class="form-select" aria-label="Please select your gender">
+                        <option selected>Please select your gender</option>
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                        <option value="2">Others</option>
+                        <option value="3">Prefer not to say</option>
+                      </select>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input">
+                      <label>Age</label>
+                      <div class="input-items default">
+                        <input type="text" placeholder="Enter your age" id="age" name='age' required/>
+                        <i class="lni lni-key"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-input rounded-buttons">
+                      <button
+                        class="btn primary-btn rounded-full"
+                        type="submit"
+                      >
+                        Sign Up
+                      </button>
+                    </div>
+                    <!-- form input -->
+                  </div>
+                </div>
+              </div>
+              <!-- signin form -->
+            </form>
+          </div>
+        </div>
+        <!-- row -->
+      </div>
+      <!-- container -->
+    </section>
+
+    <!--====== SIGNIN ONE PART ENDS ======-->
+  </body>
+</html>

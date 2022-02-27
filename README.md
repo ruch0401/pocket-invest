@@ -1,1 +1,1 @@
-# pocket-invest-hackathon
+# pocket-invest

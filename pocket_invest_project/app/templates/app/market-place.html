@@ -1,0 +1,83 @@
+{% load static %}
+<section class="card-area pb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for vendor in vendors %}
+
+            <div class="col-lg-4 col-md-7 col-sm-9">
+                <div class="single-card card-style-one">
+
+                    <div class="card-image">
+                        <img src="{{ vendor.vendor_image.url }}" alt="Image" style="height: 250px;"/>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">
+                            <a href="javascript:void(0)">{{ vendor.first_name }}</a>
+                        </h4>
+                        <p class="text">
+                            {{ vendor.vendor_category }}
+                            <br>
+                            <span style="font-size: 20px;">{{ vendor.value }} Coins</span>
+                        </p>
+                        <a href="javascript:void(0)" class="btn primary-btn" onclick="BuyItem('{{ vendor.value }}', '{{ vendor.first_name }}','{{ user.user_name }}')" style="margin-top: 2%;">
+                            Buy
+                        </a>
+                    </div>
+                </div>
+                <!-- single-card -->
+            </div>
+            {% endfor %}
+        </div>
+        <!-- row -->
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+              </div>
+              <div class="modal-body">
+                Oops! You do not have sufficient balance to buy this item. You can invest your money to earn more points to buy more exciting stuff!
+              </div>
+            </div>
+          </div>
+</div>
+    <!-- container -->
+</section>
+
+<script type="text/javascript">
+    
+    function BuyItem(value, category, username){
+
+    console.log(value);
+    $.ajax({
+      method: "POST",
+      url: "/buy-item/",
+      data: { "value":value,
+      "name":name,
+      "user_name":username
+      },
+      success: function (response) {
+
+
+
+        $(".modal-title").html(response.title);
+        $(".modal-body").html(response.message);
+
+        $("#exampleModalCenter").modal('show');
+        }
+
+      })
+    }
+
+
+
+
+    
+
+
+
+
+
+</script>
