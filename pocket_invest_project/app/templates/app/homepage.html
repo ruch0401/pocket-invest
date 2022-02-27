@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/portfolios/portfolio-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/tabs-accordions/accordions.css' %}" />
     <link
       rel="stylesheet"
       href="{% static 'scss/section-title/section-title-04.css' %}"
@@ -41,6 +43,7 @@
     <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
     <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/section-title/section-title-07.css' %}" />
     <link
       rel="stylesheet"
       href="{% static 'scss/tabs-accordions/tabs.css' %}"
@@ -108,7 +111,7 @@
                   <li class="nav-item" onclick="coursesFunction()">
                     <a href="javascript:void(0)">Courses</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" onclick="portfolioFunction('{{ user.user_name }}')">
                     <a href="javascript:void(0)">Portfolio</a>
                   </li>
                   <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
@@ -229,6 +232,7 @@
     {% elif signedIn and not parentFlag %}
     <div id="childDashboard"></div>
     <div id="courses"></div>
+    <div id="portfolio"></div>
     <div id="profile"></div>
     <div id="marketPlace"></div>
     {% endif %}
@@ -368,6 +372,24 @@
             "this is the response returned from ajax call ",
             response
           );
+        },
+      });
+    }
+
+    function portfolioFunction(username){
+      $.ajax({
+        method: "POST",
+        url: "/portfolio/",
+        data: {
+          "username" : username
+        },
+        success: function (response) {
+          $("#childDashboard").hide();
+          $("#courses").hide();
+          $("#marketPlace").hide();
+          $("#portfolio").show();
+          $("#portfolio").html("");
+          $("#portfolio").append(response);
         },
       });
     }
