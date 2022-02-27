@@ -23,6 +23,7 @@
 
   <!--====== Style css ======-->
   <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/cards/card-01.css'%}" />
 
   <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
@@ -83,7 +84,7 @@
                 <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
                 </li>
-                <li class="nav-item" onclick="coursesFunction()">
+                <li class="nav-item" onclick="coursesFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Courses</a>
                 </li>
                 <li class="nav-item">
@@ -189,6 +190,7 @@
   <div id="courses"></div>
   <div id="profile"></div>
   <div id="marketPlace"></div>
+  <div id="modules"></div>
   {% endif %}
 
   <!--====== Bootstrap js ======-->
@@ -279,11 +281,11 @@
     })
   }
 
-  function coursesFunction() {
+  function coursesFunction(username) {
     $.ajax({
       method: "POST",
       url: "/courses/",
-      data: {},
+      data: {"username": username},
       success: function (response) {
         $("#childDashboard").hide();
         $("#marketPlace").hide();

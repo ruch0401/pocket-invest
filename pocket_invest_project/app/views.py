@@ -10,8 +10,8 @@ from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
-from .models import Relationship, User
-from .models import Transaction, User
+from .models import Relationship, User 
+from .models import Transaction, User, Course, Module
 import uuid
 from datetime import datetime
 from django.contrib.auth import login, authenticate  # add this
@@ -116,9 +116,16 @@ def ChildMarketPlace(request):
 
     return HttpResponse(render_string)
 
+
+
+
 @csrf_exempt
 def ChildCourses(request):
-    render_string = render_to_string("app/courses.html")
+    username = request.POST.get("username")
+    user = User.objects.filter(user_name=username)
+    courses = Course.objects.all()
+    args = {"courses": courses,"user":user[0]}
+    render_string = render_to_string("app/courses.html", args)
 
     return HttpResponse(render_string)
 
@@ -305,7 +312,19 @@ def Quiz(request):
     return HttpResponse(render_string)
 
 @csrf_exempt
-def Module(request):
-    render_string = render_to_string("app/module.html")
+def module(request):
+    username = request.POST.get("username")
+    print("Username is"+username)
+    topic = request.POST.get("topic")
+    coursename = request.POST.get("coursename")
+    user = User.objects.filter(user_name=username)
+    modules = Module.objects.all()
+    print(modules)
+    print(user[0])
+    print(topic)
+    print(coursename)
+    args = {"modules": modules,"user":user[0], "topic":topic, "coursename":coursename}
+
+    render_string = render_to_string("app/module.html",args)
 
     return HttpResponse(render_string)
