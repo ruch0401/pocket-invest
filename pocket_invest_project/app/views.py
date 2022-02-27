@@ -17,6 +17,7 @@ from datetime import datetime
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
 import json
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -71,12 +72,15 @@ def SignUp(request):
             user.user_name = request.POST.get("username")
             user.email_id = request.POST.get("email")
             user.password = request.POST.get("password1")
-            user.random_id = uuid.uuid4()
+            random_id = uuid.uuid4()
+            user.random_id = random_id
 
             if request.POST.get("is-parent") == "no":
                 user.user_type = 0
             else:
                 user.user_type = 1
+                email = EmailMessage('Thanks for signing-up on Pocket Invest!', 'Here is your unique key which you can use to connect to your children on Pocket Invest - ' + str(random_id), to=[request.POST.get("email")])
+                email.send()
 
             if(user.user_type == 0):
                 user.real_money_balance = 0
