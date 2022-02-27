@@ -74,9 +74,6 @@
                 <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Add/Withdraw Money</a>
                 </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Profile</a>
-                </li>
                 {% elif signedIn and not parentFlag %}
                 <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
                   <a href="javascript:void(0)">Dashboard</a>
@@ -181,12 +178,13 @@
   <!--====== HEADER ONE PART ENDS ======-->
   {% if signedIn and parentFlag %}
   <div id="parentDashboard"></div>
+  <div id="parentaddmoney"></div>
   {% elif signedIn and not parentFlag %}
   <div id="childDashboard"></div>
-  <div id="parentaddmoney"></div>
   <div id="courses"></div>
-  <div id="profile"></div>
+  <div id="portfolio"></div>
   <div id="marketPlace"></div>
+  <div id="profile"></div>
   <div id="modules"></div>
   {% endif %}
 
@@ -218,6 +216,8 @@
         "username": username,
       },
       success: function (response) {
+        $("#courses").hide();
+        $("#portfolio").hide();
         $("#marketPlace").hide();
         $("#courses").hide();
         $("#childDashboard").show();
@@ -235,6 +235,7 @@
         "username": username,
       },
       success: function (response) {
+        console.log(response)
         $("#parentDashboard").hide();
         $("#parentaddmoney").show();
         $("#parentaddmoney").html("")
@@ -252,6 +253,7 @@
         "username": username,
       },
       success: function (response) {
+        $("#parentaddmoney").hide();
         $("#parentDashboard").show();
         $("#parentDashboard").html("")
         $("#parentDashboard").append(response)
@@ -270,6 +272,7 @@
       success: function (response) {
         $("#childDashboard").hide();
         $("#courses").hide();
+        $("#portfolio").hide();
         $("#profile").hide();
         $("#marketPlace").show();
         $("#marketPlace").html("")
@@ -345,6 +348,7 @@
         $("#childDashboard").hide();
         $("#courses").hide();
         $("#marketPlace").hide();
+        $("#profile").hide();
         $("#portfolio").show();
         $("#portfolio").html("");
         $("#portfolio").append(response);
