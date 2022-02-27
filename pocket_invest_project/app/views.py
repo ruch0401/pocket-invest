@@ -11,7 +11,7 @@ from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 from .models import CaseStudies, Investment, Relationship, User
-from .models import Transaction, User
+from .models import Transaction, User, Course, Module
 import uuid
 from datetime import datetime
 from django.contrib.auth import login, authenticate  # add this
@@ -115,10 +115,13 @@ def ChildMarketPlace(request):
 
     return HttpResponse(render_string)
 
-
 @csrf_exempt
 def ChildCourses(request):
-    render_string = render_to_string("app/courses.html")
+    username = request.POST.get("username")
+    user = User.objects.filter(user_name=username)
+    courses = Course.objects.all()
+    args = {"courses": courses,"user":user[0]}
+    render_string = render_to_string("app/courses.html", args)
 
     return HttpResponse(render_string)
 
@@ -262,6 +265,7 @@ def Profile(request):
             parentFlag = False
             args = {"signedIn": signedIn, "parentFlag": parentFlag}
             return render(request, 'app/homepage.html', args)
+        return render(request, 'app/profile.html')
 
 
 @csrf_exempt
@@ -298,6 +302,31 @@ def BuyItem(request):
         title = 'Insufficient balance'
 
     print(title)
+    response = { 'title' : title, 'message':body}
+    return JsonResponse(response)
+
+@csrf_exempt
+def Quiz(request):
+    render_string = render_to_string("app/quiz.html")
+
+    return HttpResponse(render_string)
+
+@csrf_exempt
+def module(request):
+    username = request.POST.get("username")
+    print("Username is"+username)
+    topic = request.POST.get("topic")
+    coursename = request.POST.get("coursename")
+    user = User.objects.filter(user_name=username)
+    modules = Module.objects.all()
+    print(modules)
+    print(user[0])
+    print(topic)
+    print(coursename)
+    args = {"modules": modules,"user":user[0], "topic":topic, "coursename":coursename}
+
+    render_string = render_to_string("app/module.html",args)
+
     response = {'title': title, 'message': body}
 
     return JsonResponse(response)
