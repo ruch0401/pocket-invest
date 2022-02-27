@@ -34,19 +34,6 @@
   <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/tabs-accordions/tabs.css' %}" />
 
-  <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/section-title/section-title-04.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
-  <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/quiz.css' %}" />
-
-  <link rel="stylesheet" href="build.css">
-
-  <link rel="stylesheet" href="assets/scss/buttons/button-page.css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -58,153 +45,165 @@
   <script src="https://code.highcharts.com/modules/drilldown.js"></script>
 </head>
 
-<div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
-  <ul class="navbar-nav m-auto">
-    {% if signedIn and parentFlag %}
-    <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Dashboard</a>
-    </li>
-    <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Add/Withdraw Money</a>
-    </li>
-    <li class="nav-item">
-      <a href="javascript:void(0)">Profile</a>
-    </li>
-    <li class="nav-item">
-      <a href="javascript:void(0)">Notification</a>
-    </li>
-    {% elif signedIn and not parentFlag %}
-    <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Dashboard</a>
-    </li>
-    <li class="nav-item" onclick="coursesFunction()">
-      <a href="javascript:void(0)">Courses</a>
-    </li>
-    <li class="nav-item">
-      <a href="javascript:void(0)">Portfolio</a>
-    </li>
-    <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Market Place</a>
-    </li>
-    <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Profile</a>
-    </li>
-    <li class="nav-item" onclick="quizFunction('{{ user.user_name }}')">
-      <a href="javascript:void(0)">Quiz</a>
-    </li>
-    {% else %}
-    <li class="nav-item">
-      <a href="javascript:void(0)">About</a>
-    </li>
-    {% endif %}
-  </ul>
-</div>
-<div class="navbar-btn d-none d-sm-inline-block">
-  {% if signedIn %}
-  <ul>
-    <li onclick="setSignInFalse('{{signedIn}}')">
-      <a class="btn primary-btn-outline" href="">Logout</a>
-    </li>
-  </ul>
-  {% else %}
-  <li class="nav-item">
-    <a href="javascript:void(0)">About</a>
-  </li>
-  {% endif %}
-  </ul>
-</div>
+<body>
+  <!--====== NAVBAR ONE PART START ======-->
 
-<div class="navbar-btn d-none d-sm-inline-block">
-  {% if signedIn %}
-  <ul>
-    <li>
-      <a class="btn primary-btn-outline" href="">Logout</a>
-    </li>
-  </ul>
-  {% endif %}
-  </nav>
-  <!-- navbar -->
-</div>
-</div>
-<!-- row -->
-</div>
-<!-- container -->
-</section>
-
-<!--====== NAVBAR ONE PART ENDS ======-->
-
-<!--====== HEADER ONE PART START ======-->
-
-{% if not signedIn %}
-<section class="header-area header-one">
-  <div class="header-content-area">
+  <section class="navbar-area navbar-one">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6 col-12">
-          <div class="header-wrapper">
-            <div class="header-content">
-              <h1 class="header-title">
-                It's Time to Teach your Kids about Money
-              </h1>
-              <p class="text-lg">
-                "Having discussions about money and how it’s made at the
-                dinner table is really, really important. The concept of
-                money saving and how the world works is something even a
-                child can grasp at an early age."<br />
-                <span style="font-size: 12px">- Kevin O'Leary (Shark Tank Investor & Chairman, O'Shares
-                  ETFs)</span>
-              </p>
-              <div class="header-btn rounded-buttons">
-                <a class="btn primary-btn-outline btn-lg" href="{% url 'sign-up' %}">
-                  SIGN UP
-                </a>
-              </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="javascript:void(0)">
+              <img src="{% static 'images/white-logo.svg' %}" alt="Logo" />
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarOne"
+              aria-controls="navbarOne" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="toggler-icon"></span>
+              <span class="toggler-icon"></span>
+              <span class="toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
+              <ul class="navbar-nav m-auto">
+                {% if signedIn and parentFlag %}
+                <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Dashboard</a>
+                </li>
+                <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Add/Withdraw Money</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Notification</a>
+                </li>
+                {% elif signedIn and not parentFlag %}
+                <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Dashboard</a>
+                </li>
+                <li class="nav-item" onclick="coursesFunction()">
+                  <a href="javascript:void(0)">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)">Portfolio</a>
+                </li>
+                <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Market Place</a>
+                </li>
+                <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
+                  <a href="javascript:void(0)">Profile</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a href="javascript:void(0)">About</a>
+                </li>
+                {% endif %}
+              </ul>
             </div>
-            <!-- header content -->
-          </div>
-        </div>
-        <div class="col-lg-6 col-12">
-          <div class="header-image d-none d-lg-block">
-            <div class="image">
-              <img src="{%static 'images/header/header-1.svg' %}" alt="Header" />
+            <div class="navbar-btn d-none d-sm-inline-block">
+              {% if signedIn %}
+              <ul>
+                <li onclick="setSignInFalse('{{signedIn}}')">
+                  <a class="btn primary-btn-outline" href="">Logout</a>
+                </li>
+              </ul>
+              {% else %}
+              <ul>
+                <li>
+                  <a class="btn primary-btn-outline" href="{% url 'sign-in' %}">Sign In</a>
+                </li>
+                <li>
+                  <a class="btn primary-btn" href="{% url 'sign-up' %}">Sign Up</a>
+                </li>
+              </ul>
+              {% endif %}
             </div>
-          </div>
+          </nav>
+          <!-- navbar -->
         </div>
       </div>
       <!-- row -->
     </div>
     <!-- container -->
-    <div class="header-shape">
-      <img src="{% static 'images/header/header-shape.svg' %}" alt="shape" />
+  </section>
+
+  <!--====== NAVBAR ONE PART ENDS ======-->
+
+  <!--====== HEADER ONE PART START ======-->
+
+  {% if not signedIn %}
+  <section class="header-area header-one">
+    <div class="header-content-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 col-12">
+            <div class="header-wrapper">
+              <div class="header-content">
+                <h1 class="header-title">
+                  It's Time to Teach your Kids about Money
+                </h1>
+                <p class="text-lg">
+                  "Having discussions about money and how it’s made at the
+                  dinner table is really, really important. The concept of
+                  money saving and how the world works is something even a
+                  child can grasp at an early age."<br />
+                  <span style="font-size: 12px">- Kevin O'Leary (Shark Tank Investor & Chairman, O'Shares
+                    ETFs)</span>
+                </p>
+                <div class="header-btn rounded-buttons">
+                  <a class="btn primary-btn-outline btn-lg" href="{% url 'sign-up' %}">
+                    SIGN UP
+                  </a>
+                </div>
+              </div>
+              <!-- header content -->
+            </div>
+          </div>
+          <div class="col-lg-6 col-12">
+            <div class="header-image d-none d-lg-block">
+              <div class="image">
+                <img src="{%static 'images/header/header-1.svg' %}" alt="Header" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- row -->
+      </div>
+      <!-- container -->
+      <div class="header-shape">
+        <img src="{% static 'images/header/header-shape.svg' %}" alt="shape" />
+      </div>
+      <!-- header-shape -->
     </div>
 
     <!-- header content area -->
-</section>
-{% endif %}
-<!--====== HEADER ONE PART ENDS ======-->
-{% if signedIn and parentFlag %}
-<div id="parentDashboard"></div>
-{% elif signedIn and not parentFlag %}
-<div id="childDashboard"></div>
-<div id="courses"></div>
-<div id="profile"></div>
-<div id="marketPlace"></div>
-<div id="quiz"></div>
-{% endif %}
+  </section>
+  {% endif %}
+  <!--====== HEADER ONE PART ENDS ======-->
+  {% if signedIn and parentFlag %}
+  <div id="parentDashboard"></div>
+  {% elif signedIn and not parentFlag %}
+  <div id="childDashboard"></div>
+  <div id="courses"></div>
+  <div id="profile"></div>
+  <div id="marketPlace"></div>
+  {% endif %}
 
-<!--====== Bootstrap js ======-->
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <!--====== Bootstrap js ======-->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
-<script>
-  //===== close navbar-collapse when a  clicked
-  let navbarTogglerOne = document.querySelector(
-    ".navbar-one .navbar-toggler"
-  );
-  navbarTogglerOne.addEventListener("click", function () {
-    navbarTogglerOne.classList.toggle("active");
-  });
-</script>
-
+  <script>
+    //===== close navbar-collapse when a  clicked
+    let navbarTogglerOne = document.querySelector(
+      ".navbar-one .navbar-toggler"
+    );
+    navbarTogglerOne.addEventListener("click", function () {
+      navbarTogglerOne.classList.toggle("active");
+    });
+  </script>
+</body>
 
 <script>
   $(document).ready(function () {
@@ -222,7 +221,6 @@
       success: function (response) {
         $("#marketPlace").hide();
         $("#courses").hide();
-        $("#quiz").hide();
         $("#childDashboard").show();
         $("#childDashboard").html("")
         $("#childDashboard").append(response)
@@ -289,7 +287,8 @@
       success: function (response) {
         $("#childDashboard").hide();
         $("#marketPlace").hide();
-        $("#quiz").hide();
+        $("#profile").hide();
+        $("#portfolio").hide();
         $("#courses").show();
         $("#courses").html("");
         $("#courses").append(response);
@@ -308,52 +307,32 @@
       success: function (response) {
         $("#childDashboard").hide();
         $("#marketPlace").hide();
+        $("#courses").hide();
+        $("#portfolio").hide();
         $("#profile").show();
-        $("#quiz").hide();
         $("#profile").html("");
         $("#profile").append(response);
       },
     });
   }
 
-  function quizFunction(user) {
-    console.log("This is quiz", user);
+  function setSignInFalse(signedIn) {
+    signedIn = false;
+    console.log("Current signed in value is ", signedIn);
     $.ajax({
       method: "POST",
-      url: "/quiz/",
+      url: "/profile/",
       data: {
-        user: user,
+        signedIn: signedIn,
       },
       success: function (response) {
-        $("#childDashboard").hide();
-        $("#marketPlace").hide();
-        $("#profile").hide();
-        $("#courses").hide();
-        $("#quiz").show();
-        $("#quiz").html("");
-        $("#quiz").append(response);
+        console.log(
+          "this is the response returned from ajax call ",
+          response
+        );
       },
     });
-
-    function setSignInFalse(signedIn) {
-      signedIn = false;
-      console.log("Current signed in value is ", signedIn);
-      $.ajax({
-        method: "POST",
-        url: "/profile/",
-        data: {
-          signedIn: signedIn,
-        },
-        success: function (response) {
-          console.log(
-            "this is the response returned from ajax call ",
-            response
-          );
-        },
-      });
-    }
   }
 </script>
-</body>
 
 </html>
