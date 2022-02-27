@@ -6,11 +6,11 @@
                 <div class="single-card card-style-two">
                     <div class="row no-gutters align-items-center justify-content-center">
                         <div class="card-content">
-                            <h2 style="margin-bottom:20px;">Add Money</h2>
+                            <h2 style="margin-bottom:20px;">Add or Withdraw Money</h2>
                             <div id="Confirmation">
 
                             </div>
-                        <form method="post">
+                        
                             <label for="formInputAmount">Enter Amount to add</label>
                             <div class="input-group col-sm-6">
                                 <div class="input-group-prepend">
@@ -28,16 +28,17 @@
 
                             </select>
                             </div>
-                            <label for="formInputAmountBlock">Enter Amount to block</label>
+                            <!-- <label for="formInputAmountBlock">Enter Amount to block</label>
                             <div class="input-group col-sm-6">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                   </div>
                                
                                 <input type="text" class="form-control" id="formInputAmountBlock" name="BlockedAmount" placeholder="0.00">
-                            </div>
-                            <button type="submit" method ="POST" style="margin-top: 20px;" class="btn btn-primary" name="add-money">Add Money</button>
-                        </form>
+                            </div> -->
+                            <button style="margin-top: 20px;" class="btn btn-primary" name="add-money" onclick="addMoney('add')">Add Money</button>
+                            <button style="margin-top: 20px;" class="btn btn-primary" name="add-money" onclick="addMoney('subtract')">Withdraw Money</button>
+                    
                 </div>
                     </div>
                 </div>
@@ -47,7 +48,31 @@
 </section>
 
 <script>
-    function onClick(){
-        document.getElementById('Confirmation').innerText = 'Transaction Successful!'
-    }
+    
+
+    function addMoney(operation) {
+    var amount = document.getElementById('formInputAmount').value;
+    //var amountBloked = document.getElementById('formInputAmountBlock').value;
+    var selectChild = document.getElementById('formInputSelectChild')
+    var valueChild = selectChild.options[selectChild.selectedIndex].text;
+    //console.log(amount);
+    document.getElementById('Confirmation').innerText = "Transaction Successful!!";
+    $.ajax({
+      method: "POST",
+      url: "/parent-update-money/",
+      data :{
+        "amountToAdd" : amount,
+        "child" : valueChild,
+        "operation" : operation
+      },
+      success : function (response) {
+          
+        $("#parentDashboard").hide();
+        $("#parentaddmoney").show();
+        $("#parentaddmoney").html("")
+        $("#parentaddmoney").append(response)
+      }
+    })
+  }
+
 </script>

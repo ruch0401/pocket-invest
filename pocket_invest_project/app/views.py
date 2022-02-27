@@ -57,6 +57,7 @@ def SignIn(request):
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
+    print("I'm here")
     return render(request=request, template_name="app/sign-in.html", context={"login_form": form})
 
 
@@ -211,26 +212,38 @@ def ParentDashboard(request):
 
 @csrf_exempt
 def ParentAddMoney(request):
-    if request.POST and "add-money" in request.POST:
-        print('inside if statement in parent add money')
-        inputAmount = request.POST.get("InputAmount")
-        childSelect = request.POST.get("SelectChild")
-        blockedAmount = request.POST.get("BlockedAmount")
-        print(inputAmount)
-
     username = request.POST.get("username")
     print("My username ", username)
     user = User.objects.filter(user_name=username)
     print('inside parent add money function')
     print(user)
     relationships = Relationship.objects.filter(parent=user[0])
-    args = {"relationships": relationships}
+    args = {"relationships" : relationships, "user" : user[0]}
     render_string = render_to_string("app/parent-add-money.html", args)
 
     return HttpResponse(render_string)
 
+@csrf_exempt
+def ParentUpdateMoney(request):
+        inputAmount = request.POST.get("amountToAdd")
+        childSelect = request.POST.get("child")
+        operation = request.POST.get("operation")
+        
+        child = User.objects.filter(first_name=childSelect)
+        if(operation == 'add'):
+            child.update(real_money_balance=(int(child[0].real_money_balance) + int(inputAmount)))
+            if(child[0].gender == 1):
+                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount*1.5)))
+            else:
+                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount)))
+        elif(operation == 'subtract' and int(child[0].real_money_balance) - int(inputAmount) > 0):
+            child.update(real_money_balance=(int(child[0].real_money_balance) - int(inputAmount)))
 
-@ csrf_exempt
+        render_string = render_to_string("app/parent-dashboard.html")
+
+        return HttpResponse(render_string)
+
+@csrf_exempt
 def Profile(request):
     if request.POST and "submit-access-code" not in request.POST:
         currentusername = request.POST.get("user")
