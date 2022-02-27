@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Relationship, User, Transaction, Course, Module, Question, ModuleProgress, CourseProgress, Article, Investment, InvestmentCategory, Portfolio, Relationship
+from .models import CaseStudies, Course, Relationship, User, Transaction, Course, Module, Question, ModuleProgress, CourseProgress, Article, Investment, InvestmentCategory, Portfolio, Relationship
 
 
 admin.site.register(User,)
@@ -14,3 +14,4 @@ admin.site.register(Investment)
 admin.site.register(InvestmentCategory)
 admin.site.register(Portfolio)
 admin.site.register(Relationship)
+admin.site.register(CaseStudies)
