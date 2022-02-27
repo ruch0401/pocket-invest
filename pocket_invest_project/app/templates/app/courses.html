@@ -1,28 +1,33 @@
 {% load static %}
 <section class="card-area">
     <div class="container">
-      <div class="row justify-content-center">
+      <div class="row justify-content-center" id="courses">
+        {% for course in courses %}
+
+
+
+
         <div class="col-lg-8">
           <div class="single-card card-style-two">
             <div class="row no-gutters align-items-center">
               <div class="col-sm-6">
                 <div class="card-image">
-                  <img src="{% static 'images/card/card-2.jpg' %}" alt="Image" />
+                  <img src="{{ course.image.url }}" alt="Image" />
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="card-content">
                   <h4 class="card-title">
-                    <a href="javascript:void(0)">Item title is here</a>
+                    <a href="javascript:void(0)">{{course.course_name}}</a>
                   </h4>
                   <p class="text">
-                    Short description for the ones who look for something new
+                    {{course.topic}}
                   </p>
 
                   <div class="card-btn rounded-buttons">
                     <a
-                      class="btn primary-btn rounded-full"
-                      href="javascript:void(0)"
+                      class="btn primary-btn rounded-full" onclick="openCourse('{{course.course_name}}','{{user.user_name}}','{{course.topic}}')"
+                      
                     >
                       GET STARTED
                     </a>
@@ -33,169 +38,42 @@
           </div>
           <!-- single-card -->
         </div>
+        {% endfor %}
+      <!-- </div id="module">
+      <div> -->
+
       </div>
       <!-- row -->
     </div>
     <!-- container -->
   </section>
 
-  <section class="card-area">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="single-card card-style-two">
-            <div class="row no-gutters align-items-center">
-              <div class="col-sm-6">
-                <div class="card-image">
-                  <img src="{% static 'images/card/card-2.jpg' %}" alt="Image" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card-content">
-                  <h4 class="card-title">
-                    <a href="javascript:void(0)">Item title is here</a>
-                  </h4>
-                  <p class="text">
-                    Short description for the ones who look for something new
-                  </p>
+  <script>
+  function openCourse(coursename, username, topic) {
+    $.ajax({
+      method: "POST",
+      url: "/module/",
+      data: {
+        "username": username,
+        "coursename": coursename,
+        "topic": topic,
+      },
+      success: function (response) {
 
-                  <div class="card-btn rounded-buttons">
-                    <a
-                      class="btn primary-btn rounded-full"
-                      href="javascript:void(0)"
-                    >
-                      GET STARTED
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single-card -->
-        </div>
-      </div>
-      <!-- row -->
-    </div>
-    <!-- container -->
-  </section>
-
-  <section class="card-area">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="single-card card-style-two">
-            <div class="row no-gutters align-items-center">
-              <div class="col-sm-6">
-                <div class="card-image">
-                  <img src="{% static 'images/card/card-2.jpg' %}" alt="Image" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card-content">
-                  <h4 class="card-title">
-                    <a href="javascript:void(0)">Item title is here</a>
-                  </h4>
-                  <p class="text">
-                    Short description for the ones who look for something new
-                  </p>
-
-                  <div class="card-btn rounded-buttons">
-                    <a
-                      class="btn primary-btn rounded-full"
-                      href="javascript:void(0)"
-                    >
-                      GET STARTED
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single-card -->
-        </div>
-      </div>
-      <!-- row -->
-    </div>
-    <!-- container -->
-  </section>
+        // window.alert(username);
+      
+        $("#marketPlace").hide();
+        $("#profile").hide();
+        $("#portfolio").hide();
+        $("#childDashboard").hide();
+        $("#courses").hide();
+        $("#module").show();
+        $("#module").html("")
+        $("#module").append(response)
+      },
+    });
+  }
 
 
-  <section class="card-area">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="single-card card-style-two">
-            <div class="row no-gutters align-items-center">
-              <div class="col-sm-6">
-                <div class="card-image">
-                  <img src="{% static 'images/card/card-2.jpg' %}" alt="Image" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card-content">
-                  <h4 class="card-title">
-                    <a href="javascript:void(0)">Item title is here</a>
-                  </h4>
-                  <p class="text">
-                    Short description for the ones who look for something new
-                  </p>
 
-                  <div class="card-btn rounded-buttons">
-                    <a
-                      class="btn primary-btn rounded-full"
-                      href="javascript:void(0)"
-                    >
-                      GET STARTED
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single-card -->
-        </div>
-      </div>
-      <!-- row -->
-    </div>
-    <!-- container -->
-  </section>
-
-  <section class="card-area">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="single-card card-style-two">
-            <div class="row no-gutters align-items-center">
-              <div class="col-sm-6">
-                <div class="card-image">
-                  <img src=".{% static 'images/card/card-2.jpg' %}" alt="Image" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card-content">
-                  <h4 class="card-title">
-                    <a href="javascript:void(0)">Item title is here</a>
-                  </h4>
-                  <p class="text">
-                    Short description for the ones who look for something new
-                  </p>
-
-                  <div class="card-btn rounded-buttons">
-                    <a
-                      class="btn primary-btn rounded-full"
-                      href="javascript:void(0)"
-                    >
-                      GET STARTED
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single-card -->
-        </div>
-      </div>
-      <!-- row -->
-    </div>
-    <!-- container -->
-  </section>
+  </script>

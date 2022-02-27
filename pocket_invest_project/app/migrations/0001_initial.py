@@ -96,6 +96,15 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Relationship',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('random_id', models.CharField(blank=True, max_length=100, null=True)),
+                ('child', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='child2parent', to='app.user')),
+                ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='parent2child', to='app.user')),
+            ],
+        ),
+        migrations.CreateModel(
             name='Question',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

@@ -1,0 +1,66 @@
+{% load static %}
+<!--
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+-->
+  <!--====== Required meta tags ======-->
+
+  <!-- <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> -->
+
+  <!--====== Title ======-->
+  <!-- <title>Cards | Ayro UI</title> -->
+
+  <!--====== Favicon Icon ======-->
+  <!-- <link rel="shortcut icon" href="{% static 'images/favicon.svg'%}" type="image/svg" /> -->
+
+  <!--====== Bootstrap css ======-->
+  <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" /> -->
+
+  <!--====== Line Icons css ======-->
+  <!-- <link rel="stylesheet" href="{% static 'css/lineicons.css'%}" /> -->
+
+  <!--====== Style css ======-->
+  <!-- <link rel="stylesheet" href="{% static 'scss/starter.css'%}" /> -->
+
+  <!-- <link rel="stylesheet" href="{% static 'scss/cards/card-01.css'%}" /> -->
+<!-- </head> -->
+
+<!-- <body> -->
+  <!--====== CARD PART START ======-->
+
+  <section class="card-area pb-5">
+    <div class="container">
+      <div class="row ">
+        {% for module in modules %}
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="single-card card-style-one">
+            <div class="card-image">
+              <img src="{% static 'images/card/card-1.jpg'%}" alt="Image" />
+            </div>
+            <div class="card-content">
+              <h4 class="card-title">
+                <a href="javascript:void(0)">{{module.module_name}}</a>
+              </h4>
+              <p class="text">
+                {{module.module_content}}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- col -->
+      </div>
+      <!-- row -->
+    </div>
+    <!-- container -->
+  </section>
+
+  <!--====== CARD PART ENDS ======-->
+<!-- </body> -->
+
+<!-- </html> -->
