@@ -31,7 +31,7 @@
         <div class="col-lg-6 col-12">
             <table class="table table-hover">
                 <thead>
-                    <tr>
+                    <tr style="text-align: center; vertical-align: middle;">
                         <th scope="col">Investment Name</th>
                         <th scope="col">Amount Invested</th>
                         <th scope="col">Current Investment Value</th>
@@ -40,11 +40,11 @@
                 </thead>
                 <tbody>
                     {% for investment in investments %}
-                    <tr>
+                    <tr style="text-align: center; vertical-align: middle;">
                         <td>{{ investment.investment_name }}</td>
                         <td>{{ investment.amount_invested }}</td>
                         <td>{{ investment.current_investment_value }}</td>
-                        <td><button id="{{ investment.id }}"
+                        <td><button id="{{ investment.id }}" class="btn primary-btn-outline"
                                 onclick="sendSellButtonValue('{{ username }}', '{{ investment.id }}')"
                                 value="{{ investment.id }}">Sell</button></td>
                     </tr>
@@ -83,9 +83,9 @@
                                         <div id="collapseSix" class="collapse show" data-bs-parent="#accordionTwo">
                                             <div class="card-body">
                                                 <p class="text">{{case.case_study_content}}</p>
-                                                <p id="cost">{{case.case_study_value}}</p>
+                                                <p id="cost" style="font-weight: bold; margin-top: 2%;">Cost - {{case.case_study_value}}</p>
                                                 <button id="buy-button" class="btn primary-btn-outline"
-                                                    onclick="buyFunction('{{ username }}', '{{ case.id }}')">Buy</button>
+                                                    onclick="buyFunction('{{ username }}', '{{ case.id }}')" style="margin-top: 3%;">Buy</button>
                                             </div>
                                         </div>
                                     </div>

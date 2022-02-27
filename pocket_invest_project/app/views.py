@@ -367,9 +367,12 @@ def Quiz2(request):
     coursename = request.POST.get("coursename")
     count = request.POST.get("count")
     user = User.objects.filter(user_name=username)
+    print(user)
     course = Course.objects.filter(course_name=coursename)
+    print(course)
     # progress=ModuleProgress()
     question_count=int(count)+1
+    print(question_count)
 
     if(question_count>2):
             modules = Module.objects.filter(course_id=course[0].id)
@@ -378,7 +381,9 @@ def Quiz2(request):
             return HttpResponse(render_string)
 
     questions=Question.objects.filter(course_id=course[0].id)
+    print(questions)
     args = {"user":user[0], "coursename":coursename, "questions":questions[question_count],"count":question_count}
+    
 
 
     render_string = render_to_string("app/quiz.html",args)
@@ -395,6 +400,11 @@ def module(request):
     course = Course.objects.filter(course_name=coursename)
     modules = Module.objects.filter(course_id=course[0].id)
     args = {"modules": modules,"user":user[0], "topic":topic, "coursename":coursename}
+    
+    render_string = render_to_string("app/module.html",args)
+
+    return HttpResponse(render_string)
+
 
 @csrf_exempt
 def Portfolio(request):

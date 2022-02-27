@@ -7,13 +7,13 @@
 
     <!--====== Bootstrap css ======-->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-  
+
     <!--====== Line Icons css ======-->
     <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
-  
+
     <!--====== Style css ======-->
     <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
-  
+
     <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
     <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/tabs-accordions/tabs.css' %}" />
-  
+
     <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
     <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
@@ -33,12 +33,12 @@
     <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
     <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
     <link rel="stylesheet" href="{% static 'css/quiz.css' %}" />
-  
+
     <link rel="stylesheet" href="build.css">
-  
+
     <link rel="stylesheet" href="assets/scss/buttons/button-page.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -109,8 +109,7 @@
 
                                 </div>
                                 <div class="me-3 mb-3">
-                                    <a class="btn primary-btn deactive" id="next"
-                                        onclick="someFunction()">
+                                    <a class="btn primary-btn deactive" id="next" onclick="someFunction()">
                                         Next
                                     </a>
                                 </div>
@@ -189,42 +188,42 @@
         }
 
 
-        function someFunction(){
+        function someFunction() {
 
-            var username='{{user.user_name}}';
-            var count='{{count}}';
-            var coursename='{{coursename}}';
+            var username = '{{user.user_name}}';
+            var count = '{{count}}';
+            var coursename = '{{coursename}}';
 
-            if(parseInt(count)>1)
-            {
+            if (parseInt(count) > 1) {
                 window.alert("Congratulations! You completed the quiz!");
             }
 
+            console.log(username)
             $.ajax({
-      method: "POST",
-      url: "/quiz2/",
-      data: {
-        "username": username,
-        "count": count,
-        "coursename": coursename,
-      },
-      success: function (response) {
+                method: "POST",
+                url: "/quiz2/",
+                data: {
+                    "username": username,
+                    "count": count,
+                    "coursename": coursename,
+                },
+                success: function (response) {
 
-        // window.alert(username);
+                    // window.alert(username);
 
-        $("#marketPlace").hide();
-        $("#profile").hide();
-        $("#portfolio").hide();
-        $("#childDashboard").hide();
-        $("#courses").hide();
-        $("#module").show();
-        $("#module").html("")
-        $("#module").append(response)
-      },
-    });
-  }
+                    $("#marketPlace").hide();
+                    $("#profile").hide();
+                    $("#portfolio").hide();
+                    $("#childDashboard").hide();
+                    $("#courses").hide();
+                    $("#modules").show();
+                    $("#modules").html("")
+                    $("#modules").append(response)
+                },
+            });
+        }
 
-        
+
 
 
 
