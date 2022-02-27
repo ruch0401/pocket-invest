@@ -83,6 +83,9 @@ def SignUp(request):
                 user.virtual_money_balance = 0
                 user.gender = 0
 
+            user.gender = request.POST.get("gender")
+            user.age = request.POST.get("age")
+
             user.save()
             user = form.save()
             login(request, user)
