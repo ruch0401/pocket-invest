@@ -13,6 +13,7 @@ urlpatterns = [
     path('profile/', views.Profile, name='Profile'),
     path('parent-update-money/', views.ParentUpdateMoney, name='ParentUpdateMoney'),
     path('quiz/', views.Quiz, name='Quiz'),
+    path('quiz2/', views.Quiz2, name='Quiz2'),
     path('module/', views.module, name='module'),
     path('buy-item/', views.BuyItem, name='BuyItem'),
     path('portfolio/', views.Portfolio, name='Portfolio'),

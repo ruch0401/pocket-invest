@@ -67,24 +67,21 @@ class Module(models.Model):
 
 
 class Question(models.Model):
-    module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
     course_id = models.CharField(max_length=100)
     text_field = models.CharField(max_length=100)
-    completion_status = models.BooleanField()
+    option_1=models.CharField(max_length=100)
+    option_2=models.CharField(max_length=100)
+    option_3=models.CharField(max_length=100)
+
 
     def __str__(self):
-        return self.module_id + " " + self.course_id + " " + self.text_field
+        return self.course_id + " " + self.text_field
 
 
-class ModuleProgress(models.Model):
-    module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    completion_status = models.BooleanField()
-
-    def __str__(self):
-        return self.module_id + " " + self.completion_status
-
+class ModuleProg(models.Model):
+    module_count=models.IntegerField()
+    course_id = models.IntegerField()
+    user_id = models.IntegerField()
 
 class CourseProgress(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
