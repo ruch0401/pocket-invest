@@ -82,24 +82,24 @@
                                         <figcaption onmouseover="mouseOver()" onmouseout="mouseOut()"
                                             class="align-items-center d-flex flex-column justify-content-center"
                                             id="figcaption">
-                                            <div class="h4" id="h4">Question 1</div>
-                                            <p id="question">How many companies are part of NSE?</p>
+                                            <div class="h4" id="h4">Question {{questions.id}}</div>
+                                            <p id="question">{{questions.text_field}}</p>
 
                                             <div class="btn-group" id="btn-group" role="group"
                                                 aria-label="Basic radio toggle button group">
                                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
                                                     required="required">
                                                 <label class="btn btn-outline-primary" id="btn-outline-1"
-                                                    onclick="activateButton('btn-outline-1')">10</label>
+                                                    onclick="activateButton('btn-outline-1')">{{questions.option_1}}</label>
 
                                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
                                                     required="required">
                                                 <label class="btn btn-outline-primary" id="btn-outline-2"
-                                                    onclick="activateButton('btn-outline-2')">25</label>
+                                                    onclick="activateButton('btn-outline-2')">{{questions.option_2}}</label>
                                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
                                                     required="required">
                                                 <label class="btn btn-outline-primary" id="btn-outline-3"
-                                                    onclick="activateButton('btn-outline-3')">NOTA</label>
+                                                    onclick="activateButton('btn-outline-3')">{{questions.option_3}}</label>
                                             </div>
 
                                         </figcaption>
@@ -109,8 +109,8 @@
 
                                 </div>
                                 <div class="me-3 mb-3">
-                                    <a href="" class="btn primary-btn deactive" id="submit"
-                                        onclick="submit('btn-outline-3')">
+                                    <a class="btn primary-btn deactive" id="next"
+                                        onclick="someFunction()">
                                         Next
                                     </a>
                                 </div>
@@ -184,9 +184,47 @@
                 elem7.style.backgroundColor = "black";
                 flag = 2;
             }
-            document.getElementById("submit").className = document.getElementById("submit").classList.replace('primary-btn', 'primary-btn-outline');
+            document.getElementById("next").className = document.getElementById("next").classList.replace('primary-btn', 'primary-btn-outline');
 
         }
+
+
+        function someFunction(){
+
+            var username='{{user.user_name}}';
+            var count='{{count}}';
+            var coursename='{{coursename}}';
+
+            if(parseInt(count)>1)
+            {
+                window.alert("Congratulations! You completed the quiz!");
+            }
+
+            $.ajax({
+      method: "POST",
+      url: "/quiz2/",
+      data: {
+        "username": username,
+        "count": count,
+        "coursename": coursename,
+      },
+      success: function (response) {
+
+        // window.alert(username);
+
+        $("#marketPlace").hide();
+        $("#profile").hide();
+        $("#portfolio").hide();
+        $("#childDashboard").hide();
+        $("#courses").hide();
+        $("#module").show();
+        $("#module").html("")
+        $("#module").append(response)
+      },
+    });
+  }
+
+        
 
 
 

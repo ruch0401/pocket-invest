@@ -11,7 +11,7 @@ from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 from .models import Relationship, User 
-from .models import Transaction, User, Course, Module
+from .models import Transaction, User, Course, Module, ModuleProg, Question
 import uuid
 from datetime import datetime
 from django.contrib.auth import login, authenticate  # add this
@@ -307,22 +307,66 @@ def BuyItem(request):
 
 @csrf_exempt
 def Quiz(request):
-    render_string = render_to_string("app/quiz.html")
+
+    username = request.POST.get("username")
+    coursename = request.POST.get("coursename")
+    count = request.POST.get("count")
+    user = User.objects.filter(user_name=username)
+    course = Course.objects.filter(course_name=coursename)
+    # progress=ModuleProgress()
+    question_count=0
+    questions=Question.objects.filter(course_id=course[0].id)
+    
+    obj = ModuleProg.objects.filter(course_id=course[0].id, user_id=user[0].id)
+    if(obj.count()==0):
+        obj = ModuleProg(course_id=course[0].id, user_id=user[0].id, module_count=count)
+        obj.save()
+    else:
+        obj.update(module_count=(int(obj[0].module_count)+int(count)))
+
+    print(questions[question_count].option_1)
+
+    args = {"user":user[0], "coursename":coursename, "questions":questions[question_count],"count":question_count}
+
+
+    render_string = render_to_string("app/quiz.html",args)
+
+    return HttpResponse(render_string)
+
+
+@csrf_exempt
+def Quiz2(request):
+
+    username = request.POST.get("username")
+    coursename = request.POST.get("coursename")
+    count = request.POST.get("count")
+    user = User.objects.filter(user_name=username)
+    course = Course.objects.filter(course_name=coursename)
+    # progress=ModuleProgress()
+    question_count=int(count)+1
+
+    if(question_count>2):
+            modules = Module.objects.filter(course_id=course[0].id)
+            args = {"modules": modules,"user":user[0], "coursename":coursename}
+            render_string = render_to_string("app/module.html",args)
+            return HttpResponse(render_string)
+
+    questions=Question.objects.filter(course_id=course[0].id)
+    args = {"user":user[0], "coursename":coursename, "questions":questions[question_count],"count":question_count}
+
+
+    render_string = render_to_string("app/quiz.html",args)
 
     return HttpResponse(render_string)
 
 @csrf_exempt
 def module(request):
     username = request.POST.get("username")
-    print("Username is"+username)
     topic = request.POST.get("topic")
     coursename = request.POST.get("coursename")
     user = User.objects.filter(user_name=username)
-    modules = Module.objects.all()
-    print(modules)
-    print(user[0])
-    print(topic)
-    print(coursename)
+    course = Course.objects.filter(course_name=coursename)
+    modules = Module.objects.filter(course_id=course[0].id)
     args = {"modules": modules,"user":user[0], "topic":topic, "coursename":coursename}
 
     render_string = render_to_string("app/module.html",args)

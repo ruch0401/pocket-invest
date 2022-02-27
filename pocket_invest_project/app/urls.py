@@ -12,6 +12,7 @@ urlpatterns = [
     path('parent-add-money/', views.ParentAddMoney, name='ParentAddMoney'),
     path('profile/', views.Profile, name='Profile'),
     path('quiz/', views.Quiz, name='Quiz'),
+    path('quiz2/', views.Quiz2, name='Quiz2'),
     path('module/', views.module, name='module'),
     path('buy-item/', views.BuyItem, name='BuyItem'),
 ]
