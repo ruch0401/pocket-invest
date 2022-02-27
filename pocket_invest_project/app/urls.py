@@ -14,5 +14,7 @@ urlpatterns = [
     path('quiz/', views.Quiz, name='Quiz'),
     path('module/', views.module, name='module'),
     path('buy-item/', views.BuyItem, name='BuyItem'),
+    path('portfolio/', views.Portfolio, name='Portfolio'),
+    
 ]
 

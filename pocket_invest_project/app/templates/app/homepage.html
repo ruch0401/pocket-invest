@@ -21,9 +21,30 @@
   <!--====== Line Icons css ======-->
   <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
 
+
   <!--====== Style css ======-->
   <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/cards/card-01.css'%}" />
+
+    <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/services/service-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/portfolios/portfolio-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/tabs-accordions/accordions.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'scss/section-title/section-title-04.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-02.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/cards/card-01.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/buttons/button-page.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'scss/section-title/section-title-07.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'scss/tabs-accordions/tabs.css' %}"
+    />
+
 
   <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
@@ -65,37 +86,57 @@
               <span class="toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
-              <ul class="navbar-nav m-auto">
-                {% if signedIn and parentFlag %}
-                <li class="nav-item" onclick="parentDashboardFunction('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Dashboard</a>
-                </li>
-                <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Add/Withdraw Money</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Notification</a>
-                </li>
-                {% elif signedIn and not parentFlag %}
-                <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Dashboard</a>
-                </li>
-                <li class="nav-item" onclick="coursesFunction('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Courses</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)">Portfolio</a>
-                </li>
-                <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Market Place</a>
-                </li>
-                <li class="nav-item" onclick="profileFunction('{{ user.user_name }}')">
-                  <a href="javascript:void(0)">Profile</a>
-                </li>
+              <div class="collapse navbar-collapse sub-menu-bar" id="navbarOne">
+                <ul class="navbar-nav m-auto">
+                  {% if signedIn and parentFlag %}
+                  <li
+                    class="nav-item"
+                    onclick="parentDashboardFunction('{{ user.user_name }}')"
+                  >
+                    <a href="javascript:void(0)">Dashboard</a>
+                  </li>
+                  <li class="nav-item" onclick="parentAddWithdrawMoney('{{ user.user_name }}')">
+                    <a href="javascript:void(0)">Add/Withdraw Money</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="javascript:void(0)">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="javascript:void(0)">Notification</a>
+                  </li>
+                  {% elif signedIn and not parentFlag %}
+                  <li class="nav-item" onclick="childDashboardFunction('{{ user.user_name }}')">
+                    <a href="javascript:void(0)">Dashboard</a>
+                  </li>
+                  <li class="nav-item" onclick="coursesFunction()">
+                    <a href="javascript:void(0)">Courses</a>
+                  </li>
+                  <li class="nav-item" onclick="portfolioFunction('{{ user.user_name }}')">
+                    <a href="javascript:void(0)">Portfolio</a>
+                  </li>
+                  <li class="nav-item" onclick="childMarketPlaceFunction('{{ user.user_name }}')">
+                    <a href="javascript:void(0)">Market Place</a>
+                  </li>
+                  <li
+                    class="nav-item"
+                    onclick="profileFunction('{{ user.user_name }}')"
+                  >
+                    <a href="javascript:void(0)">Profile</a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a href="javascript:void(0)">About</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              <div class="navbar-btn d-none d-sm-inline-block">
+                {% if signedIn %}
+                <ul>
+                  <li onclick="setSignInFalse('{{signedIn}}')">
+                    <a class="btn primary-btn-outline" href="">Logout</a>
+                  </li>
+                </ul>
                 {% else %}
                 <li class="nav-item">
                   <a href="javascript:void(0)">About</a>
@@ -178,6 +219,21 @@
       </div>
       <!-- header-shape -->
     </div>
+      
+      <!-- header content area -->
+    </section>
+    {% endif %}
+    <!--====== HEADER ONE PART ENDS ======-->
+    {% if signedIn and parentFlag %}
+    <div id="parentDashboard"></div>
+    {% elif signedIn and not parentFlag %}
+    <div id="childDashboard"></div>
+    <div id="courses"></div>
+    <div id="portfolio"></div>
+    <div id="profile"></div>
+    <div id="marketPlace"></div>
+    {% endif %}
+
 
     <!-- header content area -->
   </section>
@@ -335,6 +391,24 @@
       },
     });
   }
-</script>
 
+
+    function portfolioFunction(username){
+      $.ajax({
+        method: "POST",
+        url: "/portfolio/",
+        data: {
+          "username" : username
+        },
+        success: function (response) {
+          $("#childDashboard").hide();
+          $("#courses").hide();
+          $("#marketPlace").hide();
+          $("#portfolio").show();
+          $("#portfolio").html("");
+          $("#portfolio").append(response);
+        },
+      });
+    }
+  </script>
 </html>
