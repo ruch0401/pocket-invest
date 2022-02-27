@@ -52,6 +52,7 @@ def SignIn(request):
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
+    print("I'm here")
     return render(request=request, template_name="app/sign-in.html", context={"login_form": form})
 
 
@@ -145,10 +146,35 @@ def ParentAddMoney(request):
     print('inside parent add money function')
     print(user)
     relationships = Relationship.objects.filter(parent=user[0])
-    args = {"relationships" : relationships}
+    args = {"relationships" : relationships, "user" : user[0]}
     render_string = render_to_string("app/parent-add-money.html", args)
 
     return HttpResponse(render_string)
+
+@csrf_exempt
+def ParentUpdateMoney(request):
+        inputAmount = request.POST.get("amountToAdd")
+        childSelect = request.POST.get("child")
+        operation = request.POST.get("operation")
+        
+        child = User.objects.filter(first_name=childSelect)
+        if(operation == 'add'):
+            child.update(real_money_balance=(int(child[0].real_money_balance) + int(inputAmount)))
+            if(child[0].gender == 1):
+                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount*1.5)))
+            else:
+                child.update(virtual_money_balance=(int(child[0].virtual_money_balance) + int(inputAmount)))
+        elif(operation == 'subtract' and int(child[0].real_money_balance) - int(inputAmount) > 0):
+            child.update(real_money_balance=(int(child[0].real_money_balance) - int(inputAmount)))
+
+        render_string = render_to_string("app/parent-dashboard.html")
+
+        return HttpResponse(render_string)
+
+        
+        
+
+
 
 @csrf_exempt
 def Profile(request):

@@ -23,6 +23,7 @@
 
   <!--====== Style css ======-->
   <link rel="stylesheet" href="{% static 'scss/starter.css' %}" />
+  <link rel="stylesheet" href="{% static 'scss/sign-in-up/sign-in-up-01.css' %}" />
 
   <link rel="stylesheet" href="{% static 'scss/navbars/navbar-01.css' %}" />
   <link rel="stylesheet" href="{% static 'scss/headers/header-01.css' %}" />
@@ -113,7 +114,7 @@
               </ul>
               {% else %}
               <ul>
-                <li>
+                <li> 
                   <a class="btn primary-btn-outline" href="{% url 'sign-in' %}">Sign In</a>
                 </li>
                 <li>
@@ -137,7 +138,7 @@
 
   {% if not signedIn %}
   <section class="header-area header-one">
-    <div class="header-content-area">
+    <div class="header-content-area" id="headerContentArea">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 col-12">
@@ -176,6 +177,9 @@
         <img src="{% static 'images/header/header-shape.svg' %}" alt="shape" />
       </div>
       <!-- header-shape -->
+    </div>
+    <div id="signin">
+
     </div>
     <!-- header content area -->
   </section>
@@ -316,7 +320,6 @@
         },
       });
     }
-
 
 </script>
 
